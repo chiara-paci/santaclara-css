@@ -16,7 +16,7 @@ Santa Clara Css is a simple Django app to help managing css.
         $ pip install --user dist/santaclara_css-<version>.tar.gz
     ```
 
-3. Add "css" to your INSTALLED_APPS setting like this:
+3. Add "santaclara_css" to your INSTALLED_APPS setting like this:
     ```
         INSTALLED_APPS = (
             ...
@@ -27,6 +27,6 @@ Santa Clara Css is a simple Django app to help managing css.
 
 ##Documentation
 
-- Views: views.txt
-- Tags:  css_tags.txt
-- Static files: static.txt
+- [Views](docs/views.txt)
+- [Template Tags](docs/css_tags.txt)
+- [Static files](docs/static.txt)
