@@ -27,6 +27,6 @@ Santa Clara Css is a simple Django app to help managing css.
 
 ##Documentation
 
-- [Views](docs/views.txt)
-- [Template Tags](docs/css_tags.txt)
-- [Static files](docs/static.txt)
+- [Views](docs/views.md)
+- [Template Tags](docs/css_tags.md)
+- [Static files](docs/static.md)
