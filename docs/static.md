@@ -4,6 +4,7 @@ You can use static files in templates with:
 ```
 
 List:
+
 | Path | Description |
 |---|---|
 | css/common.css | base css definitions|
