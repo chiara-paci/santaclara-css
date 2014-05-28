@@ -32,10 +32,10 @@ Equivalent to:
 ###background_gradient
 
 ```
-{% background_gradient <style> <start> <stop> %}
+{% background_gradient <grad_style> <start> <stop> %}
 ```
 
-<start> and <stop> are colours; <style> is top, bottom, left, ecc.
+_start_ and _stop_ are colours; _grad_style_ is top, bottom, left, ecc.
 
 It's equivalent to:
 ```
@@ -82,10 +82,10 @@ It's equivalent to:
 {% border_radius_pos <pos> <radius> %}
 ```
 
-It defines a radius <radius> at <pos>, wher <pos> can be: right, left,
+It defines a radius _radius_ at position _pos_, wher _pos_ can be: right, left,
 top, bottom, top-right, top-left, bottom-right, bottom-left.
 
-For example, with <pos>=top it's equivalent to:
+For example, with _pos_=top it's equivalent to:
 ```
 ... {
   ...
@@ -116,10 +116,9 @@ It's equivalent to:
 {% icon_file_manager_levels <num_levels> <step> %}
 ```
 
-<levels> must be an integer and <step> a float. 
+_levels_ must be an integer and _step_ a float. 
 
-It defines several css classes (_.iconlevel<#>_) for indentation in a file-manager
-style:
+It defines several css classes (_.iconlevel#_) for indentation in a tree-like style:
 ```
 .iconlevel0, iconlevel1, ..., .iconlevel<num_levels-1> {
    vertical-align: bottom;
