@@ -10,6 +10,10 @@ setup(
     name='santaclara_css',
     version='0.2.1',
     packages=['santaclara_css'],
+    package_data={'santaclara_css': [
+            'static/css/*.css',
+            'templatetags/*',
+            ]},
     include_package_data=True,
     license='GNU General Public License v3 or later (GPLv3+)',  # example license
     description='A simple Django app to write css',
