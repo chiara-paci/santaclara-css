@@ -1,0 +1,12 @@
+Add "santaclara_css" to your INSTALLED_APPS setting like this::
+
+      INSTALLED_APPS = (
+          ...
+          'santaclara_css',
+	  ...
+      )
+
+- Views: views.txt
+- Tags:  css_tags.txt
+- Static files: static.txt
+

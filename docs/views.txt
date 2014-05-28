@@ -1,0 +1,12 @@
+1. CssTemplateView
+==================
+
+It's just a TemplateView with content_type='text/css'.
+
+In an urls.py file, for example:
+
+    urlpatterns =patterns('',
+                          ...
+                          ( r'base.css$',        CssTemplateView.as_view(template_name='css/base.css') ),
+	          	  ...
+                          ) 
