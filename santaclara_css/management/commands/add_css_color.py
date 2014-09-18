@@ -24,4 +24,30 @@ class Command(BaseCommand):
                 print "Added color %s=%s" % (color_name,unicode(obj))
             else:
                 print "Color %s already exists (%s)" % (color_name,unicode(obj))
+            return
+
+        if color_desc[:3]=="rgb":
+            c=color_desc[3:-1]
+            if c[3]=="a":
+                c=c[2:]
+                alpha=0
+            else:
+                c=c[1:]
+                alpha=1
+            t=c.split(",")
+            r=int(t[0])
+            g=int(t[1])
+            b=int(t[2])
+            if not alpha:
+                alpha=float(t[3])
+            obj,created=CssColor.objects.get_or_create(name=color_name,
+                                                       defaults={"red": r,"green":g,"blue":b,"alpha":alpha})
+            if created:
+                print "Added color %s=%s" % (color_name,unicode(obj))
+            else:
+                print "Color %s already exists (%s)" % (color_name,unicode(obj))
+            
+            return
+
+
 
