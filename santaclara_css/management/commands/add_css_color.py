@@ -17,4 +17,11 @@ class Command(BaseCommand):
         color_name=args[0]
         color_desc=args[1]
 
-        print color_name,color_desc
+        if color_desc[0]=="#":
+            obj,created=CssColor.objects.get_or_create(name=color_name,
+                                                       defaults={"hexadecimal": color_desc[1:]})
+            if created:
+                print "Added color %s=%s" % (color_name,unicode(obj))
+            else:
+                print "Color %s already exists (%s)" % (color_name,unicode(obj))
+
