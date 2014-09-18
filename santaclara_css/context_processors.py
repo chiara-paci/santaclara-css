@@ -1,3 +1,3 @@
 def colors(request=None):
-    T={}
+    T={"PIPPO":"PLUTO"}
     return T
