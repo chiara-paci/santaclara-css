@@ -1,8 +1,7 @@
-
-from santaclara_css.models import CssColor
+from santaclara_css.models import CssColorVariable
 
 def colors(request=None):
     T={}
-    for color in CssColor.objects.all():
+    for color in CssColorVariable.objects.all():
         T["COLOR_"+unicode(color.name)]=unicode(color)
     return T
