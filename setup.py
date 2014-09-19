@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='santaclara_css',
-    version='0.2.2.30',
+    version='0.2.2.31',
     packages=['santaclara_css'],
     package_data={'santaclara_css': [
             'static/css/*.css',
