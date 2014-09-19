@@ -44,7 +44,7 @@ class CssShadowThroughInline(admin.TabularInline):
 
 class CssShadowVariableAdmin(admin.ModelAdmin):
     list_display=[ "name"]
-    inlines = [ CssShadowThrough ]
+    inlines = [ CssShadowThroughInline ]
 
 
 admin.site.register(CssShadowVariable,CssShadowVariableAdmin)
