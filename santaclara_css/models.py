@@ -32,12 +32,18 @@ class CssColor(models.Model):
         U= u"%d,%d,%d" % (self.red,self.green,self.blue)
         return U
 
+    class Meta:
+        ordering = [ "name" ]
+
 class CssColorVariable(models.Model):
     name = models.SlugField(unique=True)
     color = models.ForeignKey(CssColor)
     alpha = models.FloatField(validators=[validators.MinValueValidator(0.0),
                                           validators.MaxValueValidator(1.0)],
                               default=1.0)
+
+    class Meta:
+        ordering = [ "name" ]
 
     def save(self,*args,**kwargs):
         self.name=self.name.upper()

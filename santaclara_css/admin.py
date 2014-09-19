@@ -8,6 +8,11 @@ class CssColorAdmin(admin.ModelAdmin):
 admin.site.register(CssColor,CssColorAdmin)
 
 class CssColorVariableAdmin(admin.ModelAdmin):
-    list_display=[ "name","alpha","color__name","color"]
+    list_display=[ "name","alpha","color_name","color"]
+
+    def color_name(self, obj):
+        return obj.color.name
+    get_name.admin_order_field  = 'color'
+    get_name.short_description = 'Color Name'
 
 admin.site.register(CssColorVariable,CssColorVariableAdmin)
