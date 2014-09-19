@@ -29,6 +29,9 @@ class CssColor(models.Model):
         super(CssColor, self).save(*args, **kwargs)
 
     def __unicode__(self):
+        return unicode(self.name)
+
+    def rgb(self):
         U= u"%d,%d,%d" % (self.red,self.green,self.blue)
         return U
 
@@ -53,7 +56,7 @@ class CssColorVariable(models.Model):
         U=u"rgb"
         if self.alpha!=1.0:
             U+=u"a"
-        U+= u"(%s" % unicode(self.color)
+        U+= u"(%s" % self.color.rgb()
         if self.alpha!=1.0:
             U+=u",%2.2f" % self.alpha
         U+=u")"
