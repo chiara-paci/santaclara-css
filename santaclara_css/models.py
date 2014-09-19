@@ -26,7 +26,6 @@ class CssColor(models.Model):
             self.red=int(r,16)
             self.green=int(g,16)
             self.blue=int(b,16)
-        self.name=self.name.upper()
         super(CssColor, self).save(*args, **kwargs)
 
     def __unicode__(self):
