@@ -67,25 +67,17 @@ class CssColorVariable(models.Model):
         return U
 
 class CssShadow(models.Model):
-    name = models.CharField(unique=True,max_length=1024,blank=True)
     h_shadow = models.CharField(max_length=1024)
     v_shadow = models.CharField(max_length=1024)
     blur = models.CharField(max_length=1024)
     spread = models.CharField(max_length=1024)
 
     def __unicode__(self):
-        return unicode(self.name)
-
-    def save(self,*args,**kwargs):
-        self.name=self.shadow_desc
-        super(CssShadow, self).save(*args, **kwargs)
-
-    def shadow_desc(self):
         U=self.h_shadow+u" "+self.v_shadow+u" "+self.blur+u" "+self.spread
         return U
 
-    class Meta:
-        ordering = [ "name" ]
+    def save(self,*args,**kwargs):
+        super(CssShadow, self).save(*args, **kwargs)
 
 class CssShadowVariable(models.Model):
     name = models.CharField(unique=True,max_length=1024)
