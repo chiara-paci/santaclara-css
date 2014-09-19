@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from santaclara_css.models import CssColor,CssColorVariable
+from santaclara_css.models import CssColor,CssColorVariable,CssShadow,CssShadowVariable,CssShadowThrough
 
 class CssColorAdmin(admin.ModelAdmin):
     list_display=[ "hexadecimal","name","color_box","red","green","blue"]
@@ -30,3 +30,21 @@ class CssColorVariableAdmin(admin.ModelAdmin):
     color_box.allow_tags = True
 
 admin.site.register(CssColorVariable,CssColorVariableAdmin)
+
+class CssShadowAdmin(admin.ModelAdmin):
+    list_display=[ "name","h_shadow","v_shadow","blur","spread"]
+    list_editable=[ "name" ]
+    
+
+admin.site.register(CssShadow,CssShadowAdmin)
+
+class CssShadowThroughInline(admin.TabularInline):
+    model = CssShadowThrough
+    extra = 0
+
+class CssShadowVariableAdmin(admin.ModelAdmin):
+    list_display=[ "name"]
+    inlines = [ CssShadowThrough ]
+
+
+admin.site.register(CssShadowVariable,CssShadowVariableAdmin)
