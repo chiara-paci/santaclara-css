@@ -92,7 +92,7 @@ class CssShadowVariable(models.Model):
 
     def __unicode__(self):
         U=[]
-        for rel in self.cssshadowtrough_set.all():
+        for rel in self.cssshadowthrough_set.all():
             U.append( unicode(rel) )
         return u", ".join(U)
 
