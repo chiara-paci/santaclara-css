@@ -2,7 +2,7 @@ from django.db import models
 from django.core import validators
 
 class CssColor(models.Model):
-    name = models.SlugField(unique=True)
+    name = models.CharField(unique=True,max_length=1024)
     hexadecimal=models.CharField(max_length=6,blank=True,
                                  validators=[validators.MinLengthValidator(6),
                                              validators.RegexValidator(regex=r'^[0-9abcdefABCDEF]+$')])
