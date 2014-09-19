@@ -65,3 +65,62 @@ class CssColorVariable(models.Model):
             U+=u",%2.2f" % self.alpha
         U+=u")"
         return U
+
+class CssShadow(models.Model):
+    name = models.CharField(unique=True,max_length=1024)
+    h_shadow = models.CharField(max_length=1024)
+    v_shadow = models.CharField(max_length=1024)
+    blur = models.CharField(max_length=1024)
+    spread = models.CharField(max_length=1024)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+    def shadow_desc(self):
+        U=self.h_shadow+u" "+self.v_shadow+u" "+self.blur+u" "+self.spread
+        return U
+
+    class Meta:
+        ordering = [ "name" ]
+
+class CssShadowVariable(models.Model):
+    name = models.CharField(unique=True,max_length=1024)
+    shadows = models.ManyToManyField(CssShadow,through='CssShadowThrough')
+
+    class Meta:
+        ordering = [ "name" ]
+
+    def save(self,*args,**kwargs):
+        self.name=self.name.upper()
+        super(CssShadowVariable, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        U=[]
+        for rel in self.cssshadowtrough_set.all():
+            U.append( unicode(rel) )
+        return u", ".join(U)
+
+class CssShadowThrough(models.Model):
+    variable = models.ForeignKey(CssShadowVariable)
+    shadow = models.ForeignKey(CssShadow)
+    color = models.ForeignKey(CssColor)
+    alpha = models.FloatField(validators=[validators.MinValueValidator(0.0),
+                                          validators.MaxValueValidator(1.0)],
+                              default=1.0)
+    inset = models.BooleanField(default=False)
+    
+        
+    def __unicode__(self):
+        if self.color.id==0:
+            return u"none"
+        U=unicode(self.shadow)
+        U+=u" rgb"
+        if self.alpha!=1.0:
+            U+=u"a"
+        U+= u"(%s" % self.color.rgb()
+        if self.alpha!=1.0:
+            U+=u",%2.2f" % self.alpha
+        U+=u")"
+        if self.inset:
+            U+=u" inset"
+        return U
