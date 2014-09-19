@@ -10,6 +10,7 @@ admin.site.register(CssColor,CssColorAdmin)
 
 class CssColorVariableAdmin(admin.ModelAdmin):
     list_display=[ "name","alpha","color","rgb"]
+    list_editable=["color"]
 
     def rgb(self, obj):
         return obj.color.rgb()
