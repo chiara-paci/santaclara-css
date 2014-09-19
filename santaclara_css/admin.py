@@ -32,8 +32,8 @@ class CssColorVariableAdmin(admin.ModelAdmin):
 admin.site.register(CssColorVariable,CssColorVariableAdmin)
 
 class CssShadowAdmin(admin.ModelAdmin):
-    list_display=[ "__unicode__","name","h_shadow","v_shadow","blur","spread"]
-    list_editable=[ "name" ]
+    list_display=[ "__unicode__","h_shadow","v_shadow","blur","spread"]
+    list_editable=[ "h_shadow","v_shadow","blur","spread"]
     
 
 admin.site.register(CssShadow,CssShadowAdmin)
