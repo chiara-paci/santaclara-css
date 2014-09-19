@@ -17,7 +17,10 @@ class Command(BaseCommand):
         color_name=args[0]
         color_desc=args[1]
 
-        if color_desc[0]=="#":
+        if color_desc=="transparent":
+            color_obj=CssColor.objects.get_or_create(id=0)
+            alpha=0.0
+        elif color_desc[0]=="#":
             alpha=1.0
             color_obj,created=CssColor.objects.get_or_create(hexadecimal=color_desc[1:],
                                                              defaults={"name": color_desc})
@@ -40,7 +43,7 @@ class Command(BaseCommand):
             color_obj,created=CssColor.objects.get_or_create(red=r,green=g,blue=b,
                                                             defaults={"name": color_desc})
             if created:
-                print "Added color %s" % (unicode(obj))
+                print "Added color %s" % (unicode(color_obj))
         else:
             print "%s not valid" % color_desc
             return
