@@ -12,7 +12,7 @@ class CssColorVariableAdmin(admin.ModelAdmin):
 
     def rgb(self, obj):
         return obj.color.rgb()
-    color_name.admin_order_field  = 'color'
-    color_name.short_description = 'Color'
+    rgb.admin_order_field  = 'color'
+    rgb.short_description = 'Color'
 
 admin.site.register(CssColorVariable,CssColorVariableAdmin)
