@@ -8,7 +8,7 @@ class CssColorAdmin(admin.ModelAdmin):
     list_editable=[ "name" ]
     
     def color_box(self,obj):
-        return format_html('<span style="background: rgb({0}); width: 3em; height: 1em;">&nbsp;</span>',
+        return format_html('<span style="background: rgb({0}); width: 30em; height: 1em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>',
                            obj.rgb())
 
     color_box.allow_tags = True
