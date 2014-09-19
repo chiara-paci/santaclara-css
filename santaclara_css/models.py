@@ -38,7 +38,7 @@ class CssColor(models.Model):
         return U
 
     class Meta:
-        ordering = [ "hexadecimal" ]
+        ordering = [ "name" ]
 
 class CssColorVariable(models.Model):
     name = models.SlugField(unique=True)
