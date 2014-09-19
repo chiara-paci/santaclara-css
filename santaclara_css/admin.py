@@ -3,7 +3,8 @@ from django.contrib import admin
 from santaclara_css.models import CssColor,CssColorVariable
 
 class CssColorAdmin(admin.ModelAdmin):
-    list_display=[ "name","hexadecimal","red","green","blue"]
+    list_display=[ "hexadecimal","name","red","green","blue"]
+    list_editable=[ "name" ]
 
 admin.site.register(CssColor,CssColorAdmin)
 
