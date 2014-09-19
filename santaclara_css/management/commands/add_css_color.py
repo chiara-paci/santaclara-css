@@ -28,7 +28,7 @@ class Command(BaseCommand):
 
         if color_desc[:3]=="rgb":
             c=color_desc[3:-1]
-            if c[3]=="a":
+            if c[0]=="a":
                 c=c[2:]
                 alpha=0
             else:
@@ -46,8 +46,6 @@ class Command(BaseCommand):
                 print "Added color %s=%s" % (color_name,unicode(obj))
             else:
                 print "Color %s already exists (%s)" % (color_name,unicode(obj))
-            
-            return
 
 
 
