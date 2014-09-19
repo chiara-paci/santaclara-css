@@ -18,7 +18,7 @@ class Command(BaseCommand):
         color_desc=args[1]
 
         if color_desc=="transparent":
-            color_obj=CssColor.objects.get_or_create(id=0)
+            color_obj=CssColor.objects.get(id=0)
             alpha=0.0
         elif color_desc[0]=="#":
             alpha=1.0
