@@ -10,7 +10,7 @@ class CssColorAdmin(admin.ModelAdmin):
         return format_html('<span style="background: rgb({0}); width: 3em; height: 1em;">&nbsp;</span>',
                            obj.rgb())
 
-    colored_name.allow_tags = True
+    color_box.allow_tags = True
 
 admin.site.register(CssColor,CssColorAdmin)
 
@@ -26,5 +26,6 @@ class CssColorVariableAdmin(admin.ModelAdmin):
     def color_box(self,obj):
         return format_html('<span style="background: {0}; width: 3em; height: 1em;">&nbsp;</span>',
                            obj.color.rgb())
+    color_box.allow_tags = True
 
 admin.site.register(CssColorVariable,CssColorVariableAdmin)
