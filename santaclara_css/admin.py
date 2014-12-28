@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from santaclara_css.models import CssColor,CssColorVariable,CssShadow,CssShadowVariable,CssShadowThrough
-from santaclara_css.models import CssEquivalence,CssEquivalenceStyle,CssEquivalenceColor,CssEquivalenceShadow
+from santaclara_css.models import CssEquivalence,CssEquivalenceStyle,CssEquivalenceColor,CssEquivalenceColorVariable
 
 class CssColorAdmin(admin.ModelAdmin):
     list_display=[ "hexadecimal","name","color_box","red","green","blue"]
@@ -54,20 +54,16 @@ class CssEquivalenceColorInline(admin.TabularInline):
     model = CssEquivalenceColor
     extra = 0
 
-class CssEquivalenceShadowInline(admin.TabularInline):
-    model = CssEquivalenceShadow
-    extra = 0
-
 class CssEquivalenceAdmin(admin.ModelAdmin):
-    inlines = [ CssEquivalenceColorInline, CssEquivalenceShadowInline ]
+    inlines = [ CssEquivalenceColorInline ]
 
 admin.site.register(CssEquivalence,CssEquivalenceAdmin)
 
 class CssEquivalenceStyleAdmin(admin.ModelAdmin):
-    inlines = [ CssEquivalenceColorInline, CssEquivalenceShadowInline ]
+    inlines = [ CssEquivalenceColorInline ]
 
 admin.site.register(CssEquivalenceStyle,CssEquivalenceStyleAdmin)
 admin.site.register(CssEquivalenceColor)
-admin.site.register(CssEquivalenceShadow)
+admin.site.register(CssEquivalenceColorVariable)
 
 

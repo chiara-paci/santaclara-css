@@ -148,12 +148,25 @@ class CssEquivalenceColor(models.Model):
     
     def __unicode__(self): return unicode(self.style)+" "+unicode(self.equivalence)
 
-class CssEquivalenceShadow(models.Model):
+class CssEquivalenceColorVariable(models.Model):
+    name = models.SlugField(unique=True)
     equivalence = models.ForeignKey(CssEquivalence)
-    style = models.ForeignKey(CssEquivalenceStyle)
-    shadow = models.ForeignKey(CssShadow)
+    alpha = models.FloatField(validators=[validators.MinValueValidator(0.0),
+                                          validators.MaxValueValidator(1.0)],
+                              default=1.0)
 
-    class Meta:
-        unique_together = ("equivalence","style")
-    
-    def __unicode__(self): return unicode(self.style)+" "+unicode(self.equivalence)
+    def save(self,*args,**kwargs):
+        self.name=self.name.upper()
+        super(CssEquivalenceColorVariable, self).save(*args, **kwargs)
+
+    def color_desc(self,color):
+        if color.id==0:
+            return u"transparent"
+        U=u"rgb"
+        if self.alpha!=1.0:
+            U+=u"a"
+        U+= u"(%s" % color.rgb()
+        if self.alpha!=1.0:
+            U+=u",%2.2f" % self.alpha
+        U+=u")"
+        return U
