@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from santaclara_css.models import CssColor,CssColorVariable,CssShadow,CssShadowVariable,CssShadowThrough
-from santaclara_css.models import CssEquivalence,CssEquivalenceStyle,CssEquivalenceMembership
+from santaclara_css.models import CssEquivalence,CssEquivalenceStyle,CssEquivalenceColor,CssEquivalenceShadow
 
 class CssColorAdmin(admin.ModelAdmin):
     list_display=[ "hexadecimal","name","color_box","red","green","blue"]
@@ -50,19 +50,24 @@ class CssShadowVariableAdmin(admin.ModelAdmin):
 
 admin.site.register(CssShadowVariable,CssShadowVariableAdmin)
 
-class CssEquivalenceMembershipInline(admin.TabularInline):
-    model = CssEquivalenceMembership
+class CssEquivalenceColorInline(admin.TabularInline):
+    model = CssEquivalenceColor
+    extra = 0
+
+class CssEquivalenceShadowInline(admin.TabularInline):
+    model = CssEquivalenceShadow
     extra = 0
 
 class CssEquivalenceAdmin(admin.ModelAdmin):
-    inlines = [ CssEquivalenceMembershipInline ]
+    inlines = [ CssEquivalenceColorInline, CssEquivalenceShadowInline ]
 
 admin.site.register(CssEquivalence,CssEquivalenceAdmin)
 
 class CssEquivalenceStyleAdmin(admin.ModelAdmin):
-    inlines = [ CssEquivalenceMembershipInline ]
+    inlines = [ CssEquivalenceColorInline, CssEquivalenceShadowInline ]
 
 admin.site.register(CssEquivalenceStyle,CssEquivalenceStyleAdmin)
-admin.site.register(CssEquivalenceMembership)
+admin.site.register(CssEquivalenceColor)
+admin.site.register(CssEquivalenceShadow)
 
 
