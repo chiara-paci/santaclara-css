@@ -155,6 +155,9 @@ class CssEquivalenceColorVariable(models.Model):
                                           validators.MaxValueValidator(1.0)],
                               default=1.0)
 
+    def __unicode__(self):
+        U=unicode(self.name)+": "+unicode(self.equivalence)+" (alpha="+("%2.2f" % self.alpha)+")"
+
     def save(self,*args,**kwargs):
         self.name=self.name.upper()
         super(CssEquivalenceColorVariable, self).save(*args, **kwargs)
