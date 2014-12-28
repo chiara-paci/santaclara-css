@@ -6,7 +6,27 @@ Add "santaclara_css" to your INSTALLED_APPS setting like this::
 	  ...
       )
 
+Add "template_vars_delegate" to TEMPATE_CONTEXT_PROCESSORS:
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+          ...
+	  "santaclara_css.template_vars_delegate.app_delegate",
+          ...
+      )
+
+Add DELEGATED_TEMPLATE_CONTEXT_PROCESSORS to settings.py:
+
+DELEGATED_TEMPLATE_CONTEXT_PROCESSORS = {
+    'santaclara_css': (
+        'santaclara_css.context_processors.colors',
+        'santaclara_css.context_processors.shadows',
+        )
+    }
+
+You can use DELEGATED_TEMPLATE_CONTEXT_PROCESSORS for your applications too.
+
 - Views: views.txt
 - Tags:  css_tags.txt
 - Static files: static.txt
+- Custom context processors: context_processors.txt
 
