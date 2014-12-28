@@ -6,7 +6,7 @@ Add "santaclara_css" to your INSTALLED_APPS setting like this::
 	  ...
       )
 
-Add "template_vars_delegate" to TEMPATE_CONTEXT_PROCESSORS:
+Add "template_vars_delegate" to TEMPLATE_CONTEXT_PROCESSORS:
 
 TEMPLATE_CONTEXT_PROCESSORS = (
           ...
@@ -29,4 +29,5 @@ You can use DELEGATED_TEMPLATE_CONTEXT_PROCESSORS for your applications too.
 - Tags:  css_tags.txt
 - Static files: static.txt
 - Custom context processors: context_processors.txt
+- Commands: commands.txt
 
