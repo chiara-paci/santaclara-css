@@ -48,3 +48,9 @@ class CssShadowVariableAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CssShadowVariable,CssShadowVariableAdmin)
+
+admin.site.register(CssEquivalence)
+admin.site.register(CssEquivalenceStyle)
+admin.site.register(CssEquivalenceMembership)
+
+

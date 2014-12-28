@@ -127,3 +127,20 @@ class CssShadowThrough(models.Model):
         if self.inset:
             U+=u" inset"
         return U
+
+class CssEquivalence(models.Model):
+    name = models.CharField(unique=True,max_length=1024)
+
+    def __unicode__(self): return self.name
+
+class CssEquivalenceStyle(models.Model):
+    name = models.CharField(unique=True,max_length=1024)
+
+    def __unicode__(self): return self.name
+
+class CssEquivalenceMembership(models.Model):
+    equivalence = models.ForeignKey(CssEquivalence)
+    style = models.ForeignKey(CssEquivalenceStyle)
+    color = models.ForeignKey(CssColor)
+    
+    def __unicode__(self): return unicode(self.style)+" "+unicode(self.equivalence)
