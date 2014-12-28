@@ -138,10 +138,20 @@ class CssEquivalenceStyle(models.Model):
 
     def __unicode__(self): return self.name
 
-class CssEquivalenceMembership(models.Model):
+class CssEquivalenceColor(models.Model):
     equivalence = models.ForeignKey(CssEquivalence)
     style = models.ForeignKey(CssEquivalenceStyle)
     color = models.ForeignKey(CssColor)
+
+    class Meta:
+        unique_together = ("equivalence","style")
+    
+    def __unicode__(self): return unicode(self.style)+" "+unicode(self.equivalence)
+
+class CssEquivalenceShadow(models.Model):
+    equivalence = models.ForeignKey(CssEquivalence)
+    style = models.ForeignKey(CssEquivalenceStyle)
+    shadow = models.ForeignKey(CssShadow)
 
     class Meta:
         unique_together = ("equivalence","style")
