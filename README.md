@@ -53,5 +53,5 @@ You can use DELEGATED_TEMPLATE_CONTEXT_PROCESSORS for your applications too.
 - [Views](docs/views.md)
 - [Template Tags](docs/css_tags.md)
 - [Static files](docs/static.md)
-- [Custom context processors]: (docs/context_processors.md)
-- [Commands]: (docs/commands.md)
+- [Custom context processors](docs/context_processors.md)
+- [Commands](docs/commands.md)
