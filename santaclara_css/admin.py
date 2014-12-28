@@ -58,7 +58,11 @@ class CssEquivalenceAdmin(admin.ModelAdmin):
     inlines = [ CssEquivalenceMembershipInline ]
 
 admin.site.register(CssEquivalence,CssEquivalenceAdmin)
-admin.site.register(CssEquivalenceStyle)
+
+class CssEquivalenceStyleAdmin(admin.ModelAdmin):
+    inlines = [ CssEquivalenceMembershipInline ]
+
+admin.site.register(CssEquivalenceStyle,CssEquivalenceStyleAdmin)
 admin.site.register(CssEquivalenceMembership)
 
 
