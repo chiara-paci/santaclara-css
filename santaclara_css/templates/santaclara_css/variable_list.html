@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+<title>Santa Clara CSS Variables</title>
+<!-- <meta name="google-site-verification" content="cTO1ehXvg6JqNlAB2KqZWq0AlpboPeaVH_gNBKQLgBk" /> -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<style>
+table {
+    border-collapse: collapse;
+}
+
+tr {
+border-bottom: 1px solid black;
+}
+
+.rowa {
+background: white;
+}
+
+.rowb {
+background: #c0c0c0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Santa Clara CSS Variables</h1>
+
+<table>
+  <tr><th>variable name</th><th>value</th></tr>
+  {% cycle "rowb" "rowa" as rowstyle silent %}
+  {% for name,value in variable_list %}
+  {% cycle rowstyle %}
+  <tr class="{{ rowstyle }}"><td>{{ name }}</td><td>{{ value }}</td></tr>
+  {% endfor %}
+</table>
