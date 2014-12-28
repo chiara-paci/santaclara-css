@@ -14,6 +14,13 @@ class CssColor(models.Model):
                                                    validators.MaxValueValidator(255)],blank=True)
     
     def save(self,*args,**kwargs):
+        if self.id==0:
+            self.red=0
+            self.green=0
+            self.blue=0
+            self.hexadecimal=""
+            super(CssColor, self).save(*args, **kwargs)
+            return
         if not self.red: self.red=0
         if not self.green: self.green=0
         if not self.blue: self.blue=0
