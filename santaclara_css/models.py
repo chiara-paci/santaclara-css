@@ -142,5 +142,8 @@ class CssEquivalenceMembership(models.Model):
     equivalence = models.ForeignKey(CssEquivalence)
     style = models.ForeignKey(CssEquivalenceStyle)
     color = models.ForeignKey(CssColor)
+
+    class Meta:
+        unique_together = ("equivalence","style")
     
     def __unicode__(self): return unicode(self.style)+" "+unicode(self.equivalence)
