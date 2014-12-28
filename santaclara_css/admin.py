@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from santaclara_css.models import CssColor,CssColorVariable,CssShadow,CssShadowVariable,CssShadowThrough
+from santaclara_css.models import CssEquivalence,CssEquivalenceStyle,CssEquivalenceMembership
 
 class CssColorAdmin(admin.ModelAdmin):
     list_display=[ "hexadecimal","name","color_box","red","green","blue"]
