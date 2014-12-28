@@ -1,0 +1,35 @@
+[
+    {
+	"pk": 0, 
+	"model": "santaclara_css.csscolor", 
+	"fields": {
+	    "name": "transparent",
+	    "hexadecimal": "",
+	    "red": 0,
+	    "green": 0,
+	    "blue": 0
+	}
+    },
+    {
+	"pk": 1,
+	"model": "santaclara_css.csscolor", 
+	"fields": {
+	    "name": "white",
+	    "hexadecimal": "FFFFFF",
+	    "red": 255,
+	    "green": 255,
+	    "blue": 255
+	}
+    },
+    {
+	"pk": 2, 
+	"model": "santaclara_css.csscolor", 
+	"fields": {
+	    "name": "black",
+	    "hexadecimal": "000000",
+	    "red": 0,
+	    "green": 0,
+	    "blue": 0
+	}
+    }
+]

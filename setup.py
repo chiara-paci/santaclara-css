@@ -8,13 +8,14 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='santaclara_css',
-    version='0.3.1.4',
+    version='0.3.1.5',
     packages=['santaclara_css'],
     package_data={'santaclara_css': [
             'static/css/*.css',
             'templatetags/*',
             'management/*.py',
             'management/commands/*',
+            'fixtures/*'
             ]},
     include_package_data=True,
     license='GNU General Public License v3 or later (GPLv3+)',  # example license
