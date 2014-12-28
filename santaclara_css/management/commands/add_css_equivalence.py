@@ -24,5 +24,5 @@ class Command(BaseCommand):
                                                                       defaults={ "equivalence": equivalence, "alpha": color_alpha })
 
         if created:
-            print "Added %s=%s alpha=%2.2f" % (var.name,unicode(equivalence),alpha)
+            print "Added %s=%s alpha=%2.2f" % (var.name,unicode(equivalence),color_alpha)
 
