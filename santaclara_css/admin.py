@@ -50,6 +50,13 @@ class CssShadowVariableAdmin(admin.ModelAdmin):
 
 admin.site.register(CssShadowVariable,CssShadowVariableAdmin)
 
+class CssEquivalenceMembershipInline(admin.TabularInline):
+    model = CssEquivalenceMembership
+    extra = 0
+
+class CssEquivalenceAdmin(admin.ModelAdmin):
+    inlines = [ CssEquivalenceMembershipInline ]
+
 admin.site.register(CssEquivalence)
 admin.site.register(CssEquivalenceStyle)
 admin.site.register(CssEquivalenceMembership)
