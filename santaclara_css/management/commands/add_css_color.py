@@ -21,6 +21,7 @@ class Command(BaseCommand):
             color_obj=CssColor.objects.get(id=0)
             alpha=0.0
         elif color_desc[0]=="#":
+            color_desc=color_desc.upper()
             alpha=1.0
             color_obj,created=CssColor.objects.get_or_create(hexadecimal=color_desc[1:],
                                                              defaults={"name": color_desc})
@@ -41,7 +42,7 @@ class Command(BaseCommand):
             if not alpha:
                 alpha=float(t[3])
             color_obj,created=CssColor.objects.get_or_create(red=r,green=g,blue=b,
-                                                            defaults={"name": color_desc})
+                                                             defaults={"name": color_desc})
             if created:
                 print "Added color %s" % (unicode(color_obj))
         else:
