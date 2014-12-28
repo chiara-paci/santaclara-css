@@ -18,5 +18,5 @@ def equivalence_colors(request=None):
         name=unicode(color_var.name)
         for eq_color in color_var.equivalence.cssequivalencecolor_set.all():
             style=unicode(eq_color.style).upper()
-            T["COLOR_"+style+"_"+name]=color_var.equivalence.color_desc(eq_color.color)
+            T["COLOR_"+style+"_"+name]=color_var.color_desc(eq_color.color)
     return T
