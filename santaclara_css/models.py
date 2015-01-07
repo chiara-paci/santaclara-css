@@ -79,6 +79,9 @@ class CssShadow(models.Model):
     blur = models.CharField(max_length=1024)
     spread = models.CharField(max_length=1024)
 
+    class Meta:
+        unique_together = ("h_shadow","v_shadow","blur","spread")
+
     def __unicode__(self):
         U=self.h_shadow+u" "+self.v_shadow+u" "+self.blur+u" "+self.spread
         return U
