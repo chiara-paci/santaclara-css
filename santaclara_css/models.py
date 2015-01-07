@@ -81,6 +81,7 @@ class CssShadow(models.Model):
 
     class Meta:
         unique_together = ("h_shadow","v_shadow","blur","spread")
+        ordering = ("h_shadow","v_shadow","blur","spread")
 
     def __unicode__(self):
         U=self.h_shadow+u" "+self.v_shadow+u" "+self.blur+u" "+self.spread
