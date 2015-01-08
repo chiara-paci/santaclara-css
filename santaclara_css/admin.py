@@ -74,6 +74,7 @@ class CssEquivalenceShadowThroughInline(admin.TabularInline):
 class CssEquivalenceShadowVariableAdmin(admin.ModelAdmin):
     list_display=[ "name", "__unicode__" ]
     inlines = [ CssEquivalenceShadowThroughInline ]
+    save_as=True
 
 admin.site.register(CssEquivalenceShadowVariable,CssEquivalenceShadowVariableAdmin)
 
