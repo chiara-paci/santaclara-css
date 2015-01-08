@@ -217,7 +217,7 @@ class CssEquivalenceShadowVariable(models.Model):
         return R
 
 class CssEquivalenceShadowThrough(models.Model):
-    variable = models.ForeignKey(CssShadowVariable)
+    variable = models.ForeignKey(CssEquivalenceShadowVariable)
     shadow = models.ForeignKey(CssShadow)
     equivalence = models.ForeignKey(CssEquivalence)
     alpha = models.FloatField(validators=[validators.MinValueValidator(0.0),
