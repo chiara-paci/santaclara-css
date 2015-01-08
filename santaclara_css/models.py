@@ -178,3 +178,74 @@ class CssEquivalenceColorVariable(models.Model):
             U+=u",%2.2f" % self.alpha
         U+=u")"
         return U
+
+    def color_dict(self):
+        T={}
+        for eq_color in self.equivalence.cssequivalencecolor_set.all():
+            style=unicode(eq_color.style)
+            T[style]=self.color_desc(eq_color.color)
+        return T.items()
+
+class CssEquivalenceShadowVariable(models.Model):
+    name = models.CharField(unique=True,max_length=1024)
+    shadows = models.ManyToManyField(CssShadow,through='CssEquivalenceShadowThrough')
+
+    class Meta:
+        ordering = [ "name" ]
+
+    def save(self,*args,**kwargs):
+        self.name=self.name.upper()
+        super(CssEquivalenceShadowVariable, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        U=[]
+        for rel in self.cssequivalenceshadowthrough_set.all():
+            U.append( unicode(rel) )
+        return unicode(self.name)+u": "+u", ".join(U)
+
+    def shadow_dict(self):
+        T={}
+        for eq_shadow in self.cssequivalenceshadowthrough_set.all():
+            for eq_color in eq_shadow.equivalence.cssequivalencecolor_set.all():
+                style=unicode(eq_color.style)
+                if not T.has_key(style):
+                    T[style]=[]
+                T[style].append(eq_shadow.shadow_desc(eq_color.color))
+        R=[]
+        for style,shadow_list in T.items():
+            R.append( (style,",".join(shadow_list)) )
+        return R
+
+class CssEquivalenceShadowThrough(models.Model):
+    variable = models.ForeignKey(CssShadowVariable)
+    shadow = models.ForeignKey(CssShadow)
+    equivalence = models.ForeignKey(CssEquivalence)
+    alpha = models.FloatField(validators=[validators.MinValueValidator(0.0),
+                                          validators.MaxValueValidator(1.0)],
+                              default=1.0)
+    inset = models.BooleanField(default=False)
+    
+        
+    def shadow_desc(self,color):
+        U=unicode(self.shadow)+" "
+        if color.id==0:
+            U+=u"transparent"
+            if self.inset:
+                U+=u" inset"
+            return U
+        U+=u"rgb"
+        if self.alpha!=1.0:
+            U+=u"a"
+        U+= u"(%s" % color.rgb()
+        if self.alpha!=1.0:
+            U+=u",%2.2f" % self.alpha
+        U+=u")"
+        if self.inset:
+            U+=u" inset"
+        return U
+
+    def __unicode__(self):
+        U=unicode(self.shadow)+" "+unicode(self.equivalence)+" (alpha="+("%2.2f" % self.alpha)+")"
+        if self.inset:
+            U+=u" inset"
+        return U

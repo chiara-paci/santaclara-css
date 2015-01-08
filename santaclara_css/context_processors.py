@@ -16,7 +16,14 @@ def equivalence_colors(request=None):
     T={}
     for color_var in CssEquivalenceColorVariable.objects.all():
         name=unicode(color_var.name)
-        for eq_color in color_var.equivalence.cssequivalencecolor_set.all():
-            style=unicode(eq_color.style).upper()
-            T["COLOR_"+style+"_"+name]=color_var.color_desc(eq_color.color)
+        for style,color in color_var.color_dict():
+            T["COLOR_"+style.upper()+"_"+name]=color
+    return T
+
+def equivalence_shadows(request=None):
+    T={}
+    for shadow_var in CssEquivalenceShadowVariable.objects.all():
+        name=unicode(shadow_var.name)
+        for style,shadow in shadow_var.shadow_dict():
+            T["SHADOW_"+style.upper()+"_"+name]=shadow
     return T
