@@ -1,4 +1,4 @@
-from santaclara_css.models import CssColorVariable,CssShadowVariable,CssEquivalenceColorVariable
+from santaclara_css.models import CssColorVariable,CssShadowVariable,CssEquivalenceColorVariable,CssEquivalenceShadowVariable
 
 def colors(request=None):
     T={}
