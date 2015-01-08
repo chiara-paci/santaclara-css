@@ -87,12 +87,17 @@ class CssShadow(models.Model):
         U=self.h_shadow+u" "+self.v_shadow+u" "+self.blur+u" "+self.spread
         return U
 
+    def shadow_text(self):
+        U=self.h_shadow+u" "+self.v_shadow+u" "+self.blur
+        return U
+
     def save(self,*args,**kwargs):
         super(CssShadow, self).save(*args, **kwargs)
 
 class CssShadowVariable(models.Model):
     name = models.CharField(unique=True,max_length=1024)
     shadows = models.ManyToManyField(CssShadow,through='CssShadowThrough')
+    shadow_text = models.BooleanField(default=False)
 
     class Meta:
         ordering = [ "name" ]
@@ -103,8 +108,12 @@ class CssShadowVariable(models.Model):
 
     def __unicode__(self):
         U=[]
-        for rel in self.cssshadowthrough_set.all():
-            U.append( unicode(rel) )
+        if self.shadow_text:
+            for rel in self.cssshadowthrough_set.all():
+                U.append( rel.shadow_text() )
+        else:
+            for rel in self.cssshadowthrough_set.all():
+                U.append( unicode(rel) )
         return u", ".join(U)
 
 class CssShadowThrough(models.Model):
@@ -121,6 +130,21 @@ class CssShadowThrough(models.Model):
         if self.color.id==0:
             return u"none"
         U=unicode(self.shadow)
+        U+=u" rgb"
+        if self.alpha!=1.0:
+            U+=u"a"
+        U+= u"(%s" % self.color.rgb()
+        if self.alpha!=1.0:
+            U+=u",%2.2f" % self.alpha
+        U+=u")"
+        if self.inset:
+            U+=u" inset"
+        return U
+
+    def shadow_text(self):
+        if self.color.id==0:
+            return u"none"
+        U=self.shadow.shadow_text()
         U+=u" rgb"
         if self.alpha!=1.0:
             U+=u"a"
@@ -189,6 +213,7 @@ class CssEquivalenceColorVariable(models.Model):
 class CssEquivalenceShadowVariable(models.Model):
     name = models.CharField(unique=True,max_length=1024)
     shadows = models.ManyToManyField(CssShadow,through='CssEquivalenceShadowThrough')
+    shadow_text = models.BooleanField(default=False)
 
     class Meta:
         ordering = [ "name" ]
@@ -199,8 +224,12 @@ class CssEquivalenceShadowVariable(models.Model):
 
     def __unicode__(self):
         U=[]
-        for rel in self.cssequivalenceshadowthrough_set.all():
-            U.append( unicode(rel) )
+        if self.shadow_text:
+            for rel in self.cssequivalenceshadowthrough_set.all():
+                U.append( rel.shadow_text() )
+        else:
+            for rel in self.cssequivalenceshadowthrough_set.all():
+                U.append( unicode(rel) )
         return unicode(self.name)+u": "+u", ".join(U)
 
     def shadow_dict(self):
@@ -210,7 +239,7 @@ class CssEquivalenceShadowVariable(models.Model):
                 style=unicode(eq_color.style)
                 if not T.has_key(style):
                     T[style]=[]
-                T[style].append(eq_shadow.shadow_desc(eq_color.color))
+                T[style].append(eq_shadow.shadow_desc(eq_color.color,self.shadow_text))
         R=[]
         for style,shadow_list in T.items():
             R.append( (style,",".join(shadow_list)) )
@@ -226,8 +255,12 @@ class CssEquivalenceShadowThrough(models.Model):
     inset = models.BooleanField(default=False)
     
         
-    def shadow_desc(self,color):
-        U=unicode(self.shadow)+" "
+    def shadow_desc(self,color,is_shadow_text):
+        if is_shadow_text:
+            U=self.shadow.shadow_text()
+        else:
+            U=unicode(self.shadow)
+        U+=" "
         if color.id==0:
             U+=u"transparent"
             if self.inset:
@@ -246,6 +279,12 @@ class CssEquivalenceShadowThrough(models.Model):
 
     def __unicode__(self):
         U=unicode(self.shadow)+" "+unicode(self.equivalence)+" (alpha="+("%2.2f" % self.alpha)+")"
+        if self.inset:
+            U+=u" inset"
+        return U
+
+    def shadow_text(self):
+        U=self.shadow.shadow_text()+" "+unicode(self.equivalence)+" (alpha="+("%2.2f" % self.alpha)+")"
         if self.inset:
             U+=u" inset"
         return U
