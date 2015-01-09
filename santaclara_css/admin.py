@@ -68,8 +68,8 @@ admin.site.register(CssEquivalenceStyle,CssEquivalenceStyleAdmin)
 admin.site.register(CssEquivalenceColor)
 
 class CssEquivalenceColorVariableAdmin(admin.ModelAdmin):
-    list_display=[ "name","color_box","alpha","color","rgb"]
-    list_editable=["color","alpha"]
+    list_display=[ "name","color_box","alpha","equivalence","rgb"]
+    list_editable=["equivalence","alpha"]
     save_as=True
 
     def rgb(self, obj):
