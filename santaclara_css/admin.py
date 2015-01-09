@@ -20,6 +20,7 @@ admin.site.register(CssColor,CssColorAdmin)
 class CssColorVariableAdmin(admin.ModelAdmin):
     list_display=[ "name","color_box","alpha","color","rgb"]
     list_editable=["color","alpha"]
+    save_as=True
 
     def rgb(self, obj):
         return obj.color.rgb()
@@ -47,7 +48,7 @@ class CssShadowThroughInline(admin.TabularInline):
 class CssShadowVariableAdmin(admin.ModelAdmin):
     list_display=[ "name", "__unicode__" ]
     inlines = [ CssShadowThroughInline ]
-
+    save_as=True
 
 admin.site.register(CssShadowVariable,CssShadowVariableAdmin)
 
@@ -65,7 +66,28 @@ class CssEquivalenceStyleAdmin(admin.ModelAdmin):
 
 admin.site.register(CssEquivalenceStyle,CssEquivalenceStyleAdmin)
 admin.site.register(CssEquivalenceColor)
-admin.site.register(CssEquivalenceColorVariable)
+
+class CssEquivalenceColorVariableAdmin(admin.ModelAdmin):
+    list_display=[ "name","color_box","alpha","color","rgb"]
+    list_editable=["color","alpha"]
+    save_as=True
+
+    def rgb(self, obj):
+        T=[]
+        for eq_color in obj.equivalence.cssequivalencecolor_set.all():
+            T.append(eq_color.color.rgb())
+        return ",".join(T)
+    rgb.short_description = 'RGB'
+
+    def color_box(self,obj):
+        T=[]
+        for eq_color in obj.equivalence.cssequivalencecolor_set.all():
+            T.append('<span style="background: %s; width: 3em; height: 1em;">%s</span>' % (eq_color.color.rgb(),
+                                                                                           unicode(eq_color.style)) )
+        return format_html(" ".join(T))
+    color_box.allow_tags = True
+
+admin.site.register(CssEquivalenceColorVariable,CssEquivalenceColorVariableAdmin)
 
 class CssEquivalenceShadowThroughInline(admin.TabularInline):
     model = CssEquivalenceShadowThrough
