@@ -76,13 +76,13 @@ class CssEquivalenceColorVariableAdmin(admin.ModelAdmin):
         T=[]
         for eq_color in obj.equivalence.cssequivalencecolor_set.all():
             T.append(eq_color.color.rgb())
-        return ",".join(T)
+        return "/".join(T)
     rgb.short_description = 'RGB'
 
     def color_box(self,obj):
         T=[]
         for eq_color in obj.equivalence.cssequivalencecolor_set.all():
-            T.append('<span style="background: %s; width: 3em; height: 1em;">%s</span>' % (eq_color.color.rgb(),
+            T.append('<span style="background: #%s; width: 3em; height: 1em;">%s</span>' % (eq_color.color.hexadecimal,
                                                                                            unicode(eq_color.style)) )
         return format_html(" ".join(T))
     color_box.allow_tags = True
