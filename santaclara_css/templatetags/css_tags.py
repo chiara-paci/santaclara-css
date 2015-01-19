@@ -26,7 +26,7 @@ def background_gradient(style,*args):
     # inverso rispetto agli altri, questo per style=top, cambiare se serve altro
     #S+='background: -webkit-gradient(linear, 0% 0%, 0% 100%, from('+stop+'), to('+start+'));'
     for i in ["webkit","moz","ms","o"]:
-        S+='\nbackground: -'+i+'-'+gradient+';\n'
+        S+='background: -'+i+'-'+gradient+';\n'
     return S
 
 @register.simple_tag
