@@ -16,14 +16,17 @@ def columned(num):
     return S
 
 
+#def background_gradient(style,start,stop):
+#    gradient='linear-gradient('+style+','+start+','+stop+')'
 @register.simple_tag
-def background_gradient(style,start,stop):
-    S='background-color: '+stop+';\n'
-    S+='background: linear-gradient('+style+','+start+','+stop+');\n'
+def background_gradient(style,*args):
+    colors=",".join(args);
+    gradient='linear-gradient('+style+','+colors+')'
+    S='background: '+gradient+';\n'
     # inverso rispetto agli altri, questo per style=top, cambiare se serve altro
-    S+='background: -webkit-gradient(linear, 0% 0%, 0% 100%, from('+stop+'), to('+start+'));'
-    for i in ["webkit-linear","moz","ms","o"]:
-        S+='\nbackground: -'+i+'-linear-gradient('+style+','+start+','+stop+');'
+    #S+='background: -webkit-gradient(linear, 0% 0%, 0% 100%, from('+stop+'), to('+start+'));'
+    for i in ["webkit","moz","ms","o"]:
+        S+='\nbackground: -'+i+'-'+gradient+';\n'
     return S
 
 @register.simple_tag
