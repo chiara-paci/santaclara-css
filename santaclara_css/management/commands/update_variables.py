@@ -7,50 +7,43 @@ from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
-from santaclara_css.models import CssColor,CssColorVariable
+from santaclara_css.models import CssColorVariable,CssShadowVariable,CssEquivalenceColorVariable,CssEquivalenceShadowVariable,CssVariable
+
+def mk_variable(key,value):
+    var_obj,created=CssVariable.objects.get_or_create(key=key,
+                                                      defaults={"value":value})
+    if created:
+        print "Created",key,value
+    else:
+        var_obj.value=value
+        var_obj.save()
+        print "Updated",key,value
 
 class Command(BaseCommand):
-    args = '<name> <color>'
-    help = 'Add color'
+    help = 'Update css variables'
 
     def handle(self, *args, **options):
-        color_name=args[0]
-        color_desc=args[1]
 
-        if color_desc=="transparent":
-            color_obj=CssColor.objects.get(id=0)
-            alpha=0.0
-        elif color_desc[0]=="#":
-            color_desc=color_desc.upper()
-            alpha=1.0
-            color_obj,created=CssColor.objects.get_or_create(hexadecimal=color_desc[1:],
-                                                             defaults={"name": color_desc})
-            if created:
-                print "Added color %s" % (unicode(color_obj))
-        elif color_desc[:3]=="rgb":
-            c=color_desc[3:-1]
-            if c[0]=="a":
-                c=c[2:]
-                alpha=0
-            else:
-                c=c[1:]
-                alpha=1
-            t=c.split(",")
-            r=int(t[0])
-            g=int(t[1])
-            b=int(t[2])
-            if not alpha:
-                alpha=float(t[3])
-            color_obj,created=CssColor.objects.get_or_create(red=r,green=g,blue=b,
-                                                             defaults={"name": color_desc})
-            if created:
-                print "Added color %s" % (unicode(color_obj))
-        else:
-            print "%s not valid" % color_desc
-            return
+        for color in CssColorVariable.objects.all():
+            key="COLOR_"+unicode(color.name)
+            value=unicode(color)
+            mk_variable(key,value)
 
-        var_obj,created=CssColorVariable.objects.get_or_create(name=color_name,
-                                                               defaults={"color":color_obj,"alpha":alpha})
-        if created:
-            print "Added %s=%s" % (var_obj.name,unicode(var_obj))
+        for shadow in CssShadowVariable.objects.all():
+            key="SHADOW_"+unicode(shadow.name)
+            value=unicode(shadow)
+            mk_variable(key,value)
 
+        for color_var in CssEquivalenceColorVariable.objects.all():
+            name=unicode(color_var.name)
+            for style,color in color_var.color_dict():
+                key="COLOR_"+style.upper()+"_"+name
+                value=color
+                mk_variable(key,value)
+
+        for shadow_var in CssEquivalenceShadowVariable.objects.all():
+            name=unicode(shadow_var.name)
+            for style,shadow in shadow_var.shadow_dict():
+                key="SHADOW_"+style.upper()+"_"+name
+                value=shadow
+                mk_variable(key,value)
