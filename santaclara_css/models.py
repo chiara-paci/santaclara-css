@@ -288,3 +288,10 @@ class CssEquivalenceShadowThrough(models.Model):
         if self.inset:
             U+=u" inset"
         return U
+
+class CssVariable(models.Model):
+    key = models.CharField(unique=True,max_length=2048)
+    value = models.CharField(max_length=2048)
+
+    def __unicode__(self):
+        return unicode(self.key)+u": "+unicode(self.value)

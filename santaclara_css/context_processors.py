@@ -1,4 +1,10 @@
-from santaclara_css.models import CssColorVariable,CssShadowVariable,CssEquivalenceColorVariable,CssEquivalenceShadowVariable
+from santaclara_css.models import CssColorVariable,CssShadowVariable,CssEquivalenceColorVariable,CssEquivalenceShadowVariable,CssVariable
+
+def variables(request=None):
+    T={}
+    for var in CssVariable.objects.all():
+        T[unicode(var.key)]=unicode(var.value)
+    return T
 
 def colors(request=None):
     T={}

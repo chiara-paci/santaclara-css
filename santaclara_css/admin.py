@@ -3,7 +3,12 @@ from django.utils.html import format_html
 
 from santaclara_css.models import CssColor,CssColorVariable,CssShadow,CssShadowVariable,CssShadowThrough
 from santaclara_css.models import CssEquivalence,CssEquivalenceStyle,CssEquivalenceColor,CssEquivalenceColorVariable
-from santaclara_css.models import CssEquivalenceShadowVariable,CssEquivalenceShadowThrough
+from santaclara_css.models import CssEquivalenceShadowVariable,CssEquivalenceShadowThrough,CssVariable
+
+class CssVariableAdmin(admin.ModelAdmin):
+    list_display=[ "key","value"]
+
+admin.site.register(CssVariable,CssVariableAdmin)
 
 class CssColorAdmin(admin.ModelAdmin):
     list_display=[ "hexadecimal","name","color_box","red","green","blue"]
