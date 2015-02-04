@@ -104,6 +104,10 @@ icontiny, .icon12 {
     vertical-align: top;
 }
 
+.middle {
+    vertical-align: middle;
+}
+
 .script-minor, .minor {
     font-style: italic;
     font-size: 80%;
