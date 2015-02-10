@@ -60,6 +60,9 @@ class CssColorVariable(models.Model):
     def save(self,*args,**kwargs):
         self.name=self.name.upper()
         super(CssColorVariable, self).save(*args, **kwargs)
+        key="COLOR_"+unicode(self.name)
+        value=unicode(self)
+        CssVariable.objects.mk_variable(key,value)
 
     def __unicode__(self):
         if self.color.id==0:
@@ -105,6 +108,9 @@ class CssShadowVariable(models.Model):
     def save(self,*args,**kwargs):
         self.name=self.name.upper()
         super(CssShadowVariable, self).save(*args, **kwargs)
+        key="SHADOW_"+unicode(self.name)
+        value=unicode(self)
+        CssVariable.objects.mk_variable(key,value)
 
     def __unicode__(self):
         U=[]
@@ -190,6 +196,11 @@ class CssEquivalenceColorVariable(models.Model):
     def save(self,*args,**kwargs):
         self.name=self.name.upper()
         super(CssEquivalenceColorVariable, self).save(*args, **kwargs)
+        name=unicode(self.name)
+        for style,color in self.color_dict():
+            key="COLOR_"+style.upper()+"_"+name
+            value=color
+            CssVariable.objects.mk_variable(key,value)
 
     def color_desc(self,color):
         if color.id==0:
@@ -221,6 +232,11 @@ class CssEquivalenceShadowVariable(models.Model):
     def save(self,*args,**kwargs):
         self.name=self.name.upper()
         super(CssEquivalenceShadowVariable, self).save(*args, **kwargs)
+        name=unicode(self.name)
+        for style,shadow in self.shadow_dict():
+            key="SHADOW_"+style.upper()+"_"+name
+            value=shadow
+            CssVariable.objects.mk_variable(key,value)
 
     def __unicode__(self):
         U=[]
