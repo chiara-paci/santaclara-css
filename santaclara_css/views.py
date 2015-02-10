@@ -17,7 +17,6 @@ class AllVarsView(TemplateView):
     def get(self,request,*args,**kwargs):
         T=template_vars_delegate.app_delegate(request).items()
         T.sort()
-        print T
         return render(request, self.template_name, {"variable_list":T})
         
     
