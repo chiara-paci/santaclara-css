@@ -10,13 +10,10 @@ from django.conf import settings
 from santaclara_css.models import CssColorVariable,CssShadowVariable,CssEquivalenceColorVariable,CssEquivalenceShadowVariable,CssVariable
 
 def mk_variable(key,value):
-    var_obj,created=CssVariable.objects.get_or_create(key=key,
-                                                      defaults={"value":value})
+    var_obj,created=CssVariable.objects.mk_variable(key,value)
     if created:
         print "Created",key,value
     else:
-        var_obj.value=value
-        var_obj.save()
         print "Updated",key,value
 
 class Command(BaseCommand):

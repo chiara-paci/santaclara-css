@@ -289,9 +289,18 @@ class CssEquivalenceShadowThrough(models.Model):
             U+=u" inset"
         return U
 
+class CssVariableManager(models.Manager):
+    def mk_variable(self,key,value):
+        var_obj,created=self.get_or_create(key=key,defaults={"value":value})
+        if not created:
+            var_obj.value=value
+            var_obj.save()
+        return var_obj,created
+
 class CssVariable(models.Model):
     key = models.CharField(unique=True,max_length=2048)
     value = models.CharField(max_length=2048)
+    objects = CssVariableManager()
 
     def __unicode__(self):
         return unicode(self.key)+u": "+unicode(self.value)
