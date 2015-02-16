@@ -31,9 +31,6 @@ def app_delegate(request):
     
     app_name = resolve(request.path).app_name
 
-    print resolve(request.path)
-    print request.path
-    
     try:
         processors = settings.DELEGATED_TEMPLATE_CONTEXT_PROCESSORS[app_name]
     except KeyError:
@@ -49,8 +46,6 @@ def app_delegate(request):
         i = path.rfind('.')
         module, attr = path[:i], path[i+1:]
 
-        print "x",i,module,attr
-        
         try:
             mod = import_module(module)
         except ImportError as e:
