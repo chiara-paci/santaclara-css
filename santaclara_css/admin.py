@@ -12,7 +12,7 @@ from santaclara_css.models import CssEquivalenceSelector
 from santaclara_css.models import CssEquivalenceStanza
 from santaclara_css.models import CssEquivalenceStanzaBoxShadowThrough
 from santaclara_css.models import CssEquivalenceStanzaBorderThrough
-from santaclara_css.models import CssEquivalenceStanzaBoxShadowThrough
+from santaclara_css.models import CssEquivalenceStanzaColorThrough
 from santaclara_css.models import CssEquivalenceStanzaLinearGradientThrough
 
 class CssVariableAdmin(admin.ModelAdmin):
@@ -125,5 +125,5 @@ admin.site.register(CssEquivalenceSelector)
 admin.site.register(CssEquivalenceStanza)
 admin.site.register(CssEquivalenceStanzaBoxShadowThrough)
 admin.site.register(CssEquivalenceStanzaBorderThrough)
-admin.site.register(CssEquivalenceStanzaBoxShadowThrough)
+admin.site.register(CssEquivalenceStanzaColorThrough)
 admin.site.register(CssEquivalenceStanzaLinearGradientThrough)
