@@ -3,7 +3,6 @@ from django.core import validators
 from django.db.models.signals import m2m_changed
 from django.core.exceptions import ValidationError
 
-
 class CssColor(models.Model):
     name = models.CharField(unique=True,max_length=1024)
     hexadecimal=models.CharField(max_length=6,blank=True,
@@ -233,6 +232,11 @@ class CssEquivalenceColorVariable(models.Model):
             T[style]=self.color_desc(eq_color.color)
         return T.items()
 
+    def by_style(self,style):
+        eq_color=self.color.equivalence.cssequivalencecolor_set.get(style=style)
+        color=self.color.color_desc(eq_color.color)
+        return color
+
 class CssEquivalenceShadowVariable(models.Model):
     name = models.CharField(unique=True,max_length=1024)
     shadows = models.ManyToManyField(CssShadow,through='CssEquivalenceShadowThrough')
@@ -272,6 +276,13 @@ class CssEquivalenceShadowVariable(models.Model):
         for style,shadow_list in T.items():
             R.append( (style,",".join(shadow_list)) )
         return R
+
+    def by_style(self,style):
+        T=[]
+        for eq_shadow in self.cssequivalenceshadowthrough_set.all():
+            eq_color=eq_shadow.equivalence.cssequivalencecolor_set.get(style=style)
+            T.append(eq_shadow.shadow_desc(eq_color.color,self.shadow_text))
+        return ",".join(T)
 
 class CssEquivalenceShadowThrough(models.Model):
     variable = models.ForeignKey(CssEquivalenceShadowVariable)
@@ -353,19 +364,25 @@ class CssVariable(models.Model):
 class CssEquivalenceBorder(models.Model):
     width = models.CharField(max_length=128,default="1px")
     color = models.ForeignKey(CssEquivalenceColorVariable)
-    style = models.CharField(max_length=128,default='solid',choices = ( ( "dotted", "dotted" ),
-                                                                        ( "dashed", "dashed" ),
-                                                                        ( "solid", "solid" ),
-                                                                        ( "double", "double" ),
-                                                                        ( "groove", "groove" ),
-                                                                        ( "ridge", "ridge" ),
-                                                                        ( "inset", "inset" ),
-                                                                        ( "outset", "outset" ) ) )
+    border_style = models.CharField(max_length=128,default='solid',choices = ( ( "dotted", "dotted" ),
+                                                                               ( "dashed", "dashed" ),
+                                                                               ( "solid", "solid" ),
+                                                                               ( "double", "double" ),
+                                                                               ( "groove", "groove" ),
+                                                                               ( "ridge", "ridge" ),
+                                                                               ( "inset", "inset" ),
+                                                                               ( "outset", "outset" ) ) )
     
     def __unicode__(self):
-        U=unicode(self.width)+" "+unicode(self.style)+" "+unicode(self.color.name)
+        U=unicode(self.width)+" "+unicode(self.border_style)+" "+unicode(self.color.name)
         return U
-    
+
+    def border_dict(self):
+        T=[]
+        for style,color in self.color.color_dict():
+            T.append( (style,unicode(self.width)+" "+unicode(self.border_style)+" "+color) )
+        return T
+
 class CssEquivalenceLinearGradient(models.Model):
     direction =  models.CharField( max_length=128, default="top")
     colors = models.ManyToManyField(CssEquivalenceColorVariable,through='CssEquivalenceLinearGradientThrough')
@@ -375,6 +392,22 @@ class CssEquivalenceLinearGradient(models.Model):
         for color in self.colors.all():
             U+=u" "+unicode(color.name)
         return U
+
+    def gradient_dict(self):
+        T={}
+        for rel in self.cssequivalencelineargradientthrough_set.order_by('pos'):
+            for style,color in rel.color.color_dict():
+                if not T.has_key(style): T[style]='linear-gradient('+unicode(self.direction)
+                T[style]+=","+color
+        for k in T.keys():
+            T[k]+=')'
+        return T.items()
+        
+
+    # def background_gradient(style,*args):
+#     colors=",".join(args);
+#     gradient='linear-gradient('+style+','+colors+')'
+
 
 class CssEquivalenceLinearGradientThrough(models.Model):
     color = models.ForeignKey(CssEquivalenceColorVariable)
@@ -404,13 +437,53 @@ class CssEquivalenceStanza(models.Model):
             sep=u", "
         return U
 
+    def stanza_dict(self):
+        T={}
+        for eq_style in CssEquivalenceStyle.objects.all():
+            T[unicode(eq_style)]=[]
+        box_shadow=self.box_shadow.all().first()
+        if box_shadow:
+            for style,shadow in box_shadow.shadow_dict():
+                T[style].append( ('box-shadow',shadow) )
+                for i in ["webkit","moz"]:
+                    T[style].append( ('-'+i+'-box-shadow',shadow) )
+        for rel in self.cssequivalencestanzacolorthrough_set.all():
+            if rel.target=="fore": label="color"
+            else: label="background-color"
+            for style,color in rel.color.color_dict():
+                T[style].append( (label,color) );
+        for rel in self.cssequivalencestanzaborderthrough_set.all():
+            label="border-"+unicode(rel.position)
+            for style,border in rel.border.border_dict():
+                T[style].append( (label,border) );
+        for rel in self.cssequivalencestanzalineargradientthrough_set.all():
+            label="background"
+            for style,gradient in rel.gradient.gradient_dict():
+                T[style].append( (label,gradient) );
+                for i in ["webkit","moz","ms","o"]:
+                    T[style].append( (label,'-'+i+'-'+gradient) )
+
+        return T.items()
+            
+        
+
+# def background_gradient(style,*args):
+#     colors=",".join(args);
+#     gradient='linear-gradient('+style+','+colors+')'
+#     S='background: '+gradient+';\n'
+#     # inverso rispetto agli altri, questo per style=top, cambiare se serve altro
+#     #S+='background: -webkit-gradient(linear, 0% 0%, 0% 100%, from('+stop+'), to('+start+'));'
+#     for i in ["webkit","moz","ms","o"]:
+#         S+='background: -'+i+'-'+gradient+';\n'
+#     return S
+
 class CssEquivalenceStanzaBoxShadowThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
     shadow = models.ForeignKey(CssEquivalenceShadowVariable)
 
     class Meta:
         unique_together = [ "stanza","shadow" ]
-    
+
 class CssEquivalenceStanzaBorderThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
     border = models.ForeignKey(CssEquivalenceBorder)

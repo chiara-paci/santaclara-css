@@ -16,6 +16,7 @@ class CssTemplateView(TemplateView):
 class CssEquivalenceStanzaView(ListView):
     model = CssEquivalenceStanza
     template_name = "santaclara_css/cssequivalencestanza_list.css"
+    context_object_name = "cssequivalencestanza_list"
 
     def render_to_response(self, context, **kwargs):
         return super(CssEquivalenceStanzaView, self).render_to_response(context,content_type='text/css',**kwargs)
