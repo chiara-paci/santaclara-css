@@ -435,7 +435,7 @@ class CssEquivalenceStanzaBoxShadowThrough(models.Model):
 class CssEquivalenceStanzaLinearGradientThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
     gradient = models.ForeignKey(CssEquivalenceLinearGradient)
-    target = models.CharField(max_length=128,choices = ( ( "back","back" ) )
+    target = models.CharField(max_length=128,choices = ( ( "back","back" ) ) )
 
     class Meta:
         unique_together = [ "stanza","gradient","target" ]
