@@ -158,9 +158,10 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
     
     def rows(self,obj):
         X=[]
-        for label,value in obj.stanza_dict():
-            X.append(label+": "+value+";")
-        return "<br/>".join(X)
+        for style,L in obj.stanza_dict():
+            for label,value in L:
+                X.append(label+u": "+value+";")
+        return u"<br/>".join(X)
     rows.allow_tags = True
 
 
