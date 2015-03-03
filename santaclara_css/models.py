@@ -285,6 +285,15 @@ class CssEquivalenceShadowThrough(models.Model):
 
     class Meta:
         ordering = [ "variable" ]
+
+    def save(self,*args,**kwargs):
+        super(CssEquivalenceShadowThrough, self).save(*args, **kwargs)
+        name=unicode(self.variable.name)
+        for style,shadow in self.variable.shadow_dict():
+            key="SHADOW_"+style.upper()+"_"+name
+            value=shadow
+            CssVariable.objects.mk_variable(key,value)
+
         
     def shadow_desc(self,color,is_shadow_text):
         if is_shadow_text:
@@ -335,7 +344,6 @@ class CssVariable(models.Model):
 
     def __unicode__(self):
         return unicode(self.key)+u": "+unicode(self.value)
-
 
     class Meta:
         ordering = [ "key" ]
