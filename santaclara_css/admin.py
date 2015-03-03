@@ -148,7 +148,7 @@ class CssEquivalenceStanzaSelectorThroughInline(admin.TabularInline):
     extra = 0
 
 class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
-    excludes = [ "selectors" ]
+    exclude = [ "selectors" ]
     inlines = [ CssEquivalenceStanzaSelectorThroughInline,
                 CssEquivalenceStanzaBoxShadowThroughInline,
                 CssEquivalenceStanzaBorderThroughInline,
