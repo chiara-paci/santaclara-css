@@ -5,6 +5,16 @@ from santaclara_css.models import CssColor,CssColorVariable,CssShadow,CssShadowV
 from santaclara_css.models import CssEquivalence,CssEquivalenceStyle,CssEquivalenceColor,CssEquivalenceColorVariable
 from santaclara_css.models import CssEquivalenceShadowVariable,CssEquivalenceShadowThrough,CssVariable
 
+from santaclara_css.models import CssEquivalenceBorder
+from santaclara_css.models import CssEquivalenceLinearGradient
+from santaclara_css.models import CssEquivalenceLinearGradientThrough
+from santaclara_css.models import CssEquivalenceSelector
+from santaclara_css.models import CssEquivalenceStanza
+from santaclara_css.models import CssEquivalenceStanzaBoxShadowThrough
+from santaclara_css.models import CssEquivalenceStanzaBorderThrough
+from santaclara_css.models import CssEquivalenceStanzaBoxShadowThrough
+from santaclara_css.models import CssEquivalenceStanzaLinearGradientThrough
+
 class CssVariableAdmin(admin.ModelAdmin):
     list_display=[ "key","value"]
 
@@ -106,3 +116,14 @@ class CssEquivalenceShadowVariableAdmin(admin.ModelAdmin):
 admin.site.register(CssEquivalenceShadowVariable,CssEquivalenceShadowVariableAdmin)
 
 
+#####
+
+admin.site.register(CssEquivalenceBorder)
+admin.site.register(CssEquivalenceLinearGradient)
+admin.site.register(CssEquivalenceLinearGradientThrough)
+admin.site.register(CssEquivalenceSelector)
+admin.site.register(CssEquivalenceStanza)
+admin.site.register(CssEquivalenceStanzaBoxShadowThrough)
+admin.site.register(CssEquivalenceStanzaBorderThrough)
+admin.site.register(CssEquivalenceStanzaBoxShadowThrough)
+admin.site.register(CssEquivalenceStanzaLinearGradientThrough)

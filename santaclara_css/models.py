@@ -1,5 +1,8 @@
 from django.db import models
 from django.core import validators
+from django.db.models.signals import m2m_changed
+from django.core.exceptions import ValidationError
+
 
 class CssColor(models.Model):
     name = models.CharField(unique=True,max_length=1024)
@@ -131,9 +134,6 @@ class CssShadowThrough(models.Model):
                               default=1.0)
     inset = models.BooleanField(default=False)
     
-    class Meta:
-        ordering = [ "variable" ]
-        
     def __unicode__(self):
         if self.color.id==0:
             return u"none"
@@ -348,3 +348,95 @@ class CssVariable(models.Model):
     class Meta:
         ordering = [ "key" ]
 
+###########
+
+class CssEquivalenceBorder(models.Model):
+    width = models.CharField(max_length=128,default="1px")
+    color = models.ForeignKey(CssEquivalenceColorVariable)
+    style = models.CharField(max_length=128,default='solid',choices = ( ( "dotted", "dotted" ),
+                                                                        ( "dashed", "dashed" ),
+                                                                        ( "solid", "solid" ),
+                                                                        ( "double", "double" ),
+                                                                        ( "groove", "groove" ),
+                                                                        ( "ridge", "ridge" ),
+                                                                        ( "inset", "inset" ),
+                                                                        ( "outset", "outset" ) ) )
+    
+    def __unicode__(self):
+        U=unicode(self.width)+" "+unicode(self.style)+" "+unicode(self.color.name)
+        return U
+    
+class CssEquivalenceLinearGradient(models.Model):
+    direction =  models.CharField( max_length=128, default="top")
+    colors = models.ManyToManyField(CssEquivalenceColorVariable,through='CssEquivalenceLinearGradientThrough')
+
+    def __unicode__(self):
+        U=unicode(self.direction)
+        for color in self.colors.all():
+            U+=u" "+unicode(color.name)
+        return U
+
+class CssEquivalenceLinearGradientThrough(models.Model):
+    color = models.ForeignKey(CssEquivalenceColorVariable)
+    gradient = models.ForeignKey(CssEquivalenceLinearGradient)
+    pos = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = [ "pos" ]
+
+class CssEquivalenceSelector(models.Model):
+    selector = models.CharField(max_length=1024)
+
+    def __unicode__(self): return unicode(self.selector)
+
+class CssEquivalenceStanza(models.Model):
+    selectors = models.ManyToManyField(CssEquivalenceSelector)
+    box_shadow = models.ManyToManyField(CssEquivalenceShadowVariable,blank=True,through=CssEquivalenceStanzaBoxShadowThrough)
+    borders = models.ManyToManyField(CssEquivalenceBorder,blank=True,through=CssEquivalenceStanzaBorderThrough)
+    colors = models.ManyToManyField(CssEquivalenceColorVariable,blank=True,through=CssEquivalenceStanzaColorThrough)
+    linear_gradients = models.ManyToManyField(CssEquivalenceLinearGradient,blank=True,through=CssEquivalenceStanzaLinearGradientThrough)
+    
+    def __unicode__(self): 
+        U=u""
+        sep=u""
+        for sel in self.selectors.all():
+            U+=sep+unicode(sel)
+            sep=u", "
+        return U
+
+class CssEquivalenceStanzaBoxShadowThrough(models.Model):
+    stanza = models.ForeignKey(CssEquivalenceStanza)
+    shadow = models.ForeignKey(CssEquivalenceShadowVariable)
+
+    class Meta:
+        unique_together = [ "stanza","shadow" ]
+    
+class CssEquivalenceStanzaBorderThrough(models.Model):
+    stanza = models.ForeignKey(CssEquivalenceStanza)
+    border = models.ForeignKey(CssEquivalenceBorder)
+    position = models.CharField(max_length=128,choices=( ( "left","left" ),
+                                                         ( "top", "top" ),
+                                                         ( "right", "right" ),
+                                                         ( "bottom", "bottom" ) ) )
+
+    class Meta:
+        unique_together = [ "stanza","border","position" ]
+    
+class CssEquivalenceStanzaBoxShadowThrough(models.Model):
+    stanza = models.ForeignKey(CssEquivalenceStanza)
+    color = models.ForeignKey(CssEquivalenceColorVariable)
+    target = models.CharField(max_length=128,choices = ( ( "back","back" ),
+                                                         ( "fore", "fore" ) ) )
+
+    class Meta:
+        unique_together = [ "stanza","color","target" ]
+
+
+class CssEquivalenceStanzaLinearGradientThrough(models.Model):
+    stanza = models.ForeignKey(CssEquivalenceStanza)
+    gradient = models.ForeignKey(CssEquivalenceLinearGradient)
+    target = models.CharField(max_length=128,choices = ( ( "back","back" ) )
+
+    class Meta:
+        unique_together = [ "stanza","gradient","target" ]
+    
