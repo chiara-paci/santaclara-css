@@ -122,8 +122,32 @@ admin.site.register(CssEquivalenceBorder)
 admin.site.register(CssEquivalenceLinearGradient)
 admin.site.register(CssEquivalenceLinearGradientThrough)
 admin.site.register(CssEquivalenceSelector)
-admin.site.register(CssEquivalenceStanza)
 admin.site.register(CssEquivalenceStanzaBoxShadowThrough)
 admin.site.register(CssEquivalenceStanzaBorderThrough)
 admin.site.register(CssEquivalenceStanzaColorThrough)
 admin.site.register(CssEquivalenceStanzaLinearGradientThrough)
+
+class CssEquivalenceStanzaBoxShadowThroughInline(admin.TabularInline):
+    model = CssEquivalenceStanzaBoxShadowThrough
+    extra = 0
+
+class CssEquivalenceStanzaBorderThroughInline(admin.TabularInline):
+    model = CssEquivalenceStanzaBorderThrough
+    extra = 0
+
+class CssEquivalenceStanzaLinearGradientThroughInline(admin.TabularInline):
+    model = CssEquivalenceStanzaLinearGradientThrough
+    extra = 0
+
+class CssEquivalenceStanzaColorThroughInline(admin.TabularInline):
+    model = CssEquivalenceStanzaBoxColorThrough
+    extra = 0
+
+class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
+    inlines = [ CssEquivalenceStanzaBoxShadowThroughInline,
+                CssEquivalenceStanzaBorderThroughInline,
+                CssEquivalenceStanzaLinearGradientThroughInline,
+                CssEquivalenceStanzaColorThroughInline]
+
+admin.site.register(CssEquivalenceStanza,CssEquivalenceStanzaAdmin)
+
