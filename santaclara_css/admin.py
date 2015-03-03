@@ -144,7 +144,7 @@ class CssEquivalenceStanzaColorThroughInline(admin.TabularInline):
     extra = 0
 
 class CssEquivalenceStanzaSelectorThroughInline(admin.TabularInline):
-    model = CssEquivalenceStanza.objects.through
+    model = CssEquivalenceStanza.selectors.through
     extra = 0
 
 class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
