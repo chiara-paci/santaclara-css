@@ -422,7 +422,7 @@ class CssEquivalenceStanzaBorderThrough(models.Model):
     class Meta:
         unique_together = [ "stanza","border","position" ]
     
-class CssEquivalenceStanzaBoxShadowThrough(models.Model):
+class CssEquivalenceStanzaColorThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
     color = models.ForeignKey(CssEquivalenceColorVariable)
     target = models.CharField(max_length=128,choices = ( ( "back","back" ),
