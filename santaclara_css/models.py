@@ -131,6 +131,8 @@ class CssShadowThrough(models.Model):
                               default=1.0)
     inset = models.BooleanField(default=False)
     
+    class Meta:
+        ordering = [ "variable" ]
         
     def __unicode__(self):
         if self.color.id==0:
@@ -167,10 +169,16 @@ class CssEquivalence(models.Model):
 
     def __unicode__(self): return self.name
 
+    class Meta:
+        ordering = [ "name" ]
+
 class CssEquivalenceStyle(models.Model):
     name = models.CharField(unique=True,max_length=1024)
 
     def __unicode__(self): return self.name
+
+    class Meta:
+        ordering = [ "name" ]
 
 class CssEquivalenceColor(models.Model):
     equivalence = models.ForeignKey(CssEquivalence)
@@ -179,6 +187,7 @@ class CssEquivalenceColor(models.Model):
 
     class Meta:
         unique_together = ("equivalence","style")
+        ordering = ("equivalence",)
     
     def __unicode__(self): return unicode(self.style)+" "+unicode(self.equivalence)
 
@@ -188,6 +197,9 @@ class CssEquivalenceColorVariable(models.Model):
     alpha = models.FloatField(validators=[validators.MinValueValidator(0.0),
                                           validators.MaxValueValidator(1.0)],
                               default=1.0)
+
+    class Meta:
+        ordering = [ "name" ]
 
     def __unicode__(self):
         U=unicode(self.name)+": "+unicode(self.equivalence)+" (alpha="+("%2.2f" % self.alpha)+")"
@@ -270,6 +282,9 @@ class CssEquivalenceShadowThrough(models.Model):
                               default=1.0)
     inset = models.BooleanField(default=False)
     
+
+    class Meta:
+        ordering = [ "variable" ]
         
     def shadow_desc(self,color,is_shadow_text):
         if is_shadow_text:
@@ -320,3 +335,8 @@ class CssVariable(models.Model):
 
     def __unicode__(self):
         return unicode(self.key)+u": "+unicode(self.value)
+
+
+    class Meta:
+        ordering = [ "key" ]
+
