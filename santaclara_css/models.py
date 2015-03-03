@@ -391,10 +391,10 @@ class CssEquivalenceSelector(models.Model):
 
 class CssEquivalenceStanza(models.Model):
     selectors = models.ManyToManyField(CssEquivalenceSelector)
-    box_shadow = models.ManyToManyField(CssEquivalenceShadowVariable,blank=True,through=CssEquivalenceStanzaBoxShadowThrough)
-    borders = models.ManyToManyField(CssEquivalenceBorder,blank=True,through=CssEquivalenceStanzaBorderThrough)
-    colors = models.ManyToManyField(CssEquivalenceColorVariable,blank=True,through=CssEquivalenceStanzaColorThrough)
-    linear_gradients = models.ManyToManyField(CssEquivalenceLinearGradient,blank=True,through=CssEquivalenceStanzaLinearGradientThrough)
+    box_shadow = models.ManyToManyField(CssEquivalenceShadowVariable,blank=True,through='CssEquivalenceStanzaBoxShadowThrough')
+    borders = models.ManyToManyField(CssEquivalenceBorder,blank=True,through='CssEquivalenceStanzaBorderThrough')
+    colors = models.ManyToManyField(CssEquivalenceColorVariable,blank=True,through='CssEquivalenceStanzaColorThrough')
+    linear_gradients = models.ManyToManyField(CssEquivalenceLinearGradient,blank=True,through='CssEquivalenceStanzaLinearGradientThrough')
     
     def __unicode__(self): 
         U=u""
