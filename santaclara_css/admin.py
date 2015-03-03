@@ -140,7 +140,7 @@ class CssEquivalenceStanzaLinearGradientThroughInline(admin.TabularInline):
     extra = 0
 
 class CssEquivalenceStanzaColorThroughInline(admin.TabularInline):
-    model = CssEquivalenceStanzaBoxColorThrough
+    model = CssEquivalenceStanzaColorThrough
     extra = 0
 
 class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
