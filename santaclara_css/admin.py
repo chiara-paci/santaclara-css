@@ -9,6 +9,7 @@ from santaclara_css.models import CssEquivalenceBorder
 from santaclara_css.models import CssEquivalenceLinearGradient
 from santaclara_css.models import CssEquivalenceLinearGradientThrough
 from santaclara_css.models import CssEquivalenceSelector
+from santaclara_css.models import CssEquivalenceSection
 from santaclara_css.models import CssEquivalenceStanza
 from santaclara_css.models import CssEquivalenceStanzaBoxShadowThrough
 from santaclara_css.models import CssEquivalenceStanzaBorderThrough
@@ -120,6 +121,7 @@ admin.site.register(CssEquivalenceShadowVariable,CssEquivalenceShadowVariableAdm
 
 admin.site.register(CssEquivalenceBorder)
 admin.site.register(CssEquivalenceSelector)
+admin.site.register(CssEquivalenceSection)
 admin.site.register(CssEquivalenceLinearGradient)
 admin.site.register(CssEquivalenceLinearGradientThrough)
 
