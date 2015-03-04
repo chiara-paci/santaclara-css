@@ -173,12 +173,21 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
     rows_by_style.allow_tags = True
 
     def get_list_display(self,request): 
-        list_display = [ "selectors" ]
+        list_display = [ "__unicode__" ]
+        class F(callable):
+            def __init__(self,style):
+                self.style=style
+                self.short_description=unicode(style)
+                self.allow_tags=True
+            def __call__(self,obj):
+                X=[]
+                for style_key,L in obj.stanza_dict():
+                    if style_key!=unicode(self.style): continue
+                    for label,value in L:
+                        X.append(label+u": "+value+";")
+                return u"<br/>".join(X)
         for style in CssEquivalenceStyle.objects.all():
-            def f(obj):
-                return self.rows_by_style(style,obj)
-            f.short_description=unicode(style)
-            list_display.append(f)
+            list_display.append(F(style))
         return list_display
 
 
