@@ -391,7 +391,7 @@ class CssEquivalenceLinearGradient(models.Model):
 
     def __unicode__(self):
         U="["+unicode(self.direction)+"] "
-        U+=u" — ".join(map(unicode,self.colors.all()))
+        U+=u" — ".join(map(lambda c: unicode(c.name),self.colors.all()))
         return U
 
     def gradient_dict(self):
