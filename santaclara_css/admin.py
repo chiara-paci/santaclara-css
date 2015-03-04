@@ -136,15 +136,15 @@ admin.site.register(CssEquivalenceLinearGradient,CssEquivalenceLinearGradientAdm
 class CssEquivalenceSelectorStanzaThroughInline(admin.TabularInline):
     model = CssEquivalenceStanza.selectors.through
     extra = 0
-    fields = ('self','css_text')
+    fields = ('cssequivalencestanza','css_text')
     readonly_fields = ( 'css_text', )
 
     def css_text(self,instance): 
         rows=[]
-        for style,row_list in instance.stanza.stanza_dict():
+        for style,row_list in instance.cssequivalencestanza.stanza_dict():
             r=u"."+style
-            if not instance.selector.collapse: r+=u" "
-            r+=unicode(instance.selector)+" {"
+            if not instance.cssequivalenceselector.collapse: r+=u" "
+            r+=unicode(instance.cssequivalenceselector)+" {"
             rows.append(r)
             for label,value in row_list:
                 rows.append(label+": "+value+";")
