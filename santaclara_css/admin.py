@@ -198,7 +198,7 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
                 CssEquivalenceStanzaBorderThroughInline,
                 CssEquivalenceStanzaLinearGradientThroughInline,
                 CssEquivalenceStanzaColorThroughInline]
-    list_filter = [ "selectors",SelectorInitialFilter,"selectors__section" ]
+    list_filter = [ "selectors__section",SelectorInitialFilter,"selectors" ]
     
     def rows(self,obj):
         X=[]
