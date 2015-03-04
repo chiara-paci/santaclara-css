@@ -465,7 +465,7 @@ class CssEquivalenceStanza(models.Model):
                 n+=1
                 rows.append(r)
             for label,value in row_list:
-                rows.append(label+u": "+value+"; ")
+                rows.append(u"    "+label+u": "+value+"; ")
             rows.append(u"}")
             rows.append(u"")
         return "\n".join(rows)
