@@ -208,10 +208,11 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
     save_on_top=True
     exclude = [ "selectors" ]
     inlines = [ CssEquivalenceStanzaSelectorThroughInline,
-                CssEquivalenceStanzaBoxShadowThroughInline,
+                CssEquivalenceStanzaColorThroughInline,
                 CssEquivalenceStanzaBorderThroughInline,
                 CssEquivalenceStanzaLinearGradientThroughInline,
-                CssEquivalenceStanzaColorThroughInline]
+                CssEquivalenceStanzaBoxShadowThroughInline ]
+                
     list_filter = [ "selectors__section",SelectorInitialFilter,"selectors" ]
 
     def get_list_display(self,request): 

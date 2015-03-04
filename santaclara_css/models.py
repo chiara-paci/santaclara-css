@@ -429,6 +429,9 @@ class CssEquivalenceSelector(models.Model):
 
     def __unicode__(self): return unicode(self.selector)
 
+    class Meta:
+        ordering = [ "selector" ]
+
 class CssEquivalenceStanza(models.Model):
     selectors = models.ManyToManyField(CssEquivalenceSelector)
     box_shadow = models.ManyToManyField(CssEquivalenceShadowVariable,blank=True,through='CssEquivalenceStanzaBoxShadowThrough')
