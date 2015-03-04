@@ -125,7 +125,7 @@ admin.site.register(CssEquivalenceLinearGradientThrough)
 
 class CssEquivalenceStanzaThroughAdmin(admin.ModelAdmin):
     list_display=["__unicode__","stanza","important"]
-    list_editor=["important"]
+    list_editable=["important"]
 
 admin.site.register(CssEquivalenceStanzaBoxShadowThrough,CssEquivalenceStanzaThroughAdmin)
 admin.site.register(CssEquivalenceStanzaBorderThrough,CssEquivalenceStanzaThroughAdmin)

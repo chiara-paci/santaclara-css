@@ -504,7 +504,7 @@ class CssEquivalenceStanzaBorderThrough(models.Model):
                                                          ( "right", "right" ),
                                                          ( "bottom", "bottom" ) ) )
 
-    def __unicode__(self): return "("+unicode(self.position)+") "+unicode(self.border)
+    def __unicode__(self): return unicode(self.border)+" ("+unicode(self.position)+")"
 
     class Meta:
         unique_together = [ "stanza","border","position" ]
@@ -519,7 +519,7 @@ class CssEquivalenceStanzaColorThrough(models.Model):
     class Meta:
         unique_together = [ "stanza","color","target" ]
 
-    def __unicode__(self): return "("+unicode(self.target)+") "+unicode(self.color)
+    def __unicode__(self): return unicode(self.color)+" ("+unicode(self.target)+")"
 
 class CssEquivalenceStanzaLinearGradientThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
