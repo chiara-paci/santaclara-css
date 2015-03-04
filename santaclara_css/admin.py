@@ -182,6 +182,7 @@ class SelectorInitialFilter(admin.SimpleListFilter):
                 continue
             selectors.add(t[0])
         t=map(lambda x: (x,x),list(selectors))
+        t.sort()
         return tuple(t)
 
     def queryset(self, request, queryset):
@@ -199,23 +200,6 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
                 CssEquivalenceStanzaLinearGradientThroughInline,
                 CssEquivalenceStanzaColorThroughInline]
     list_filter = [ "selectors__section",SelectorInitialFilter,"selectors" ]
-    
-    def rows(self,obj):
-        X=[]
-        for style,L in obj.stanza_dict():
-            for label,value in L:
-                X.append(style+"/"+label+u": "+value+";")
-        return u"<br/>".join(X)
-    rows.allow_tags = True
-
-    def rows_by_style(self,style,obj):
-        X=[]
-        for style_key,L in obj.stanza_dict():
-            if style_key!=unicode(style): continue
-            for label,value in L:
-                X.append(label+u": "+value+";")
-        return u"<br/>".join(X)
-    rows_by_style.allow_tags = True
 
     def get_list_display(self,request): 
         list_display = [ "__unicode__" ]
