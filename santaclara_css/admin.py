@@ -120,8 +120,16 @@ admin.site.register(CssEquivalenceShadowVariable,CssEquivalenceShadowVariableAdm
 #####
 
 admin.site.register(CssEquivalenceBorder)
-admin.site.register(CssEquivalenceLinearGradient)
 admin.site.register(CssEquivalenceLinearGradientThrough)
+
+class CssEquivalenceLinearGradientThroughInline(admin.TabularInline):
+    model = CssEquivalenceLinearGradientThrough
+    extra = 0
+
+class CssEquivalenceLinearGradientAdmin(admin.ModelAdmin):
+    inlines = [ CssEquivalenceLinearGradientThroughInline ]
+
+admin.site.register(CssEquivalenceLinearGradient,CssEquivalenceLinearGradientAdmin)
 
 
 class CssEquivalenceSelectorAdmin(admin.ModelAdmin):
