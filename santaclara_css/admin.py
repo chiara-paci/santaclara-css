@@ -153,25 +153,27 @@ class CssEquivalenceStanzaSelectorThroughInline(admin.TabularInline):
     extra = 0
 
 
-class UsernameInitialFilter(admin.SimpleListFilter):
-    title = 'username initial'
-    parameter_name = 'username_initial'
-    column = "username"
+class SelectorInitialFilter(admin.SimpleListFilter):
+    title = 'area'
+    parameter_name = 'selector_initial'
 
     def lookups(self, request, model_admin):
-        qset = model_admin.get_queryset(request)
-        L=qset.extra(select={"initial": "lower(substr("+self.column+",1,1))"},order_by=["initial"]).values("initial").distinct()
-        t=[ ("empty","empty") ]
-        for ch in map(lambda x: x["initial"],L):
-            t.append( (ch,ch) )
+        selectors=set()
+        for sel in CssEquivalenceSelector.objects.all():
+            t=sel.split(" ")
+            if len(t)==1: 
+                selectors.add("-")
+                continue
+            selectors.add(t[1])
+        t=map(lambda x: (x,x),list(selectors))
         return tuple(t)
 
     def queryset(self, request, queryset):
         val=self.value()
         if not val: return queryset
-        if val=="empty":
-            return queryset.filter(username='')
-        return queryset.filter(username__istartswith=val)
+        if val=="-":
+            return queryset.exclude(name__contains=' ')
+        return queryset.filter(username__istartswith=val+' ')
 
 class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
     exclude = [ "selectors" ]
@@ -180,7 +182,7 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
                 CssEquivalenceStanzaBorderThroughInline,
                 CssEquivalenceStanzaLinearGradientThroughInline,
                 CssEquivalenceStanzaColorThroughInline]
-    list_filter = [ "selectors" ]
+    list_filter = [ "selectors",SelectorInitialFilter ]
     
     def rows(self,obj):
         X=[]
