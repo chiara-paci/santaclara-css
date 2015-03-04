@@ -480,6 +480,7 @@ class CssEquivalenceStanza(models.Model):
 class CssEquivalenceStanzaBoxShadowThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
     shadow = models.ForeignKey(CssEquivalenceShadowVariable)
+    important = models.BooleanField(default=False)
 
     class Meta:
         unique_together = [ "stanza","shadow" ]
@@ -487,6 +488,7 @@ class CssEquivalenceStanzaBoxShadowThrough(models.Model):
 class CssEquivalenceStanzaBorderThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
     border = models.ForeignKey(CssEquivalenceBorder)
+    important = models.BooleanField(default=False)
     position = models.CharField(max_length=128,choices=( ( "left","left" ),
                                                          ( "top", "top" ),
                                                          ( "right", "right" ),
@@ -498,6 +500,7 @@ class CssEquivalenceStanzaBorderThrough(models.Model):
 class CssEquivalenceStanzaColorThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
     color = models.ForeignKey(CssEquivalenceColorVariable)
+    important = models.BooleanField(default=False)
     target = models.CharField(max_length=128,choices = ( ( "back","back" ),
                                                          ( "fore", "fore" ) ) )
 
@@ -508,6 +511,7 @@ class CssEquivalenceStanzaColorThrough(models.Model):
 class CssEquivalenceStanzaLinearGradientThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
     gradient = models.ForeignKey(CssEquivalenceLinearGradient)
+    important = models.BooleanField(default=False)
     target = models.CharField(max_length=128,choices = ( ( "back","back" ), ) )
 
     class Meta:
