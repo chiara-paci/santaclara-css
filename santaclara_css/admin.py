@@ -174,7 +174,7 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
 
     def get_list_display(self,request): 
         list_display = [ "__unicode__" ]
-        class F(callable):
+        class F(object):
             def __init__(self,style):
                 self.style=style
                 self.short_description=unicode(style)
