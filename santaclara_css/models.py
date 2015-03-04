@@ -417,19 +417,18 @@ class CssEquivalenceLinearGradientThrough(models.Model):
     class Meta:
         ordering = [ "pos" ]
 
-class CssEquivalenceSelector(models.Model):
-    selector = models.CharField(max_length=1024)
-
-    def __unicode__(self): return unicode(self.selector)
-
 class CssEquivalenceSection(models.Model):
     name = models.CharField(max_length=1024)
 
     def __unicode__(self): return unicode(self.name)
     
+class CssEquivalenceSelector(models.Model):
+    section = models.ForeignKey(CssEquivalenceSection)
+    selector = models.CharField(max_length=1024)
+
+    def __unicode__(self): return unicode(self.selector)
 
 class CssEquivalenceStanza(models.Model):
-    section = models.ForeignKey(CssEquivalenceSection)
     selectors = models.ManyToManyField(CssEquivalenceSelector)
     box_shadow = models.ManyToManyField(CssEquivalenceShadowVariable,blank=True,through='CssEquivalenceStanzaBoxShadowThrough')
     borders = models.ManyToManyField(CssEquivalenceBorder,blank=True,through='CssEquivalenceStanzaBorderThrough')
