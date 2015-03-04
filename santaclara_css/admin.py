@@ -172,8 +172,8 @@ class SelectorInitialFilter(admin.SimpleListFilter):
         val=self.value()
         if not val: return queryset
         if val=="-":
-            return queryset.exclude(selectors__name__contains=' ')
-        return queryset.filter(selectors__name__istartswith=val+' ').distinct()
+            return queryset.exclude(selectors__selector__contains=' ')
+        return queryset.filter(selectors__selector__istartswith=val+' ').distinct()
 
 class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
     exclude = [ "selectors" ]
