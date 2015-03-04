@@ -154,7 +154,6 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
                 CssEquivalenceStanzaBorderThroughInline,
                 CssEquivalenceStanzaLinearGradientThroughInline,
                 CssEquivalenceStanzaColorThroughInline]
-    list_display = [ "__unicode__","rows"]
     
     def rows(self,obj):
         X=[]
@@ -163,6 +162,24 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
                 X.append(style+"/"+label+u": "+value+";")
         return u"<br/>".join(X)
     rows.allow_tags = True
+
+    def rows_by_style(self,style,obj):
+        X=[]
+        for style_key,L in obj.stanza_dict():
+            if style_key!=unicode(style): continue
+            for label,value in L:
+                X.append(label+u": "+value+";")
+        return u"<br/>".join(X)
+    rows_by_style.allow_tags = True
+
+    def get_list_display(self,request): 
+        list_display = [ "selectors" ]
+        for style in CssEquivalenceStyle.objects.all():
+            def f(obj):
+                return self.rows_by_style(style,obj)
+            f.short_description=unicode(style)
+            list_display.append(f)
+        return list_display
 
 
 admin.site.register(CssEquivalenceStanza,CssEquivalenceStanzaAdmin)
