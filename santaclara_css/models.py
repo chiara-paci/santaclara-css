@@ -449,6 +449,26 @@ class CssEquivalenceStanza(models.Model):
             sep=u", "
         return U
 
+    def text(self):
+        rows=[]
+        for style,row_list in self.stanza_dict():
+            sels=list(self.selectors.all())
+            L=len(sels)
+            n=1
+            end=","
+            for sel in sels:
+                if n==L: end=" {"
+                r=u"."+style
+                if not sel.collapse: r+=u" "
+                r+=unicode(sel)
+                n+=1
+                rows.append(r)
+            for label,value in row_list:
+                rows.append(label+u": "+value+"; ")
+            rows.append(u"{")
+            rows.append(u"")
+        return "\n".join(rows)
+
     def stanza_dict(self):
         T={}
         for eq_style in CssEquivalenceStyle.objects.all():
@@ -482,7 +502,6 @@ class CssEquivalenceStanza(models.Model):
                 T[style].append( (label,gradient+suffix) );
                 for i in ["webkit","moz","ms","o"]:
                     T[style].append( (label,'-'+i+'-'+gradient+suffix) )
-
         return T.items()
             
         
