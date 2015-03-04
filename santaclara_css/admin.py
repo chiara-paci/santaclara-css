@@ -119,13 +119,18 @@ admin.site.register(CssEquivalenceShadowVariable,CssEquivalenceShadowVariableAdm
 #####
 
 admin.site.register(CssEquivalenceBorder)
+admin.site.register(CssEquivalenceSelector)
 admin.site.register(CssEquivalenceLinearGradient)
 admin.site.register(CssEquivalenceLinearGradientThrough)
-admin.site.register(CssEquivalenceSelector)
-admin.site.register(CssEquivalenceStanzaBoxShadowThrough)
-admin.site.register(CssEquivalenceStanzaBorderThrough)
-admin.site.register(CssEquivalenceStanzaColorThrough)
-admin.site.register(CssEquivalenceStanzaLinearGradientThrough)
+
+class CssEquivalenceStanzaThroughAdmin(admin.ModelAdmin):
+    list_display=["__unicode__","stanza","important"]
+    list_editor=["important"]
+
+admin.site.register(CssEquivalenceStanzaBoxShadowThrough,CssEquivalenceStanzaThroughAdmin)
+admin.site.register(CssEquivalenceStanzaBorderThrough,CssEquivalenceStanzaThroughAdmin)
+admin.site.register(CssEquivalenceStanzaColorThrough,CssEquivalenceStanzaThroughAdmin)
+admin.site.register(CssEquivalenceStanzaLinearGradientThrough,CssEquivalenceStanzaThroughAdmin)
 
 class CssEquivalenceStanzaBoxShadowThroughInline(admin.TabularInline):
     model = CssEquivalenceStanzaBoxShadowThrough
