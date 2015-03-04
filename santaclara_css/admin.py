@@ -164,7 +164,7 @@ class SelectorInitialFilter(admin.SimpleListFilter):
             if len(t)==1: 
                 selectors.add("-")
                 continue
-            selectors.add(t[1])
+            selectors.add(t[0])
         t=map(lambda x: (x,x),list(selectors))
         return tuple(t)
 
