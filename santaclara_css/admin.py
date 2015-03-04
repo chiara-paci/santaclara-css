@@ -136,7 +136,7 @@ admin.site.register(CssEquivalenceLinearGradient,CssEquivalenceLinearGradientAdm
 class CssEquivalenceSelectorStanzaThroughInline(admin.TabularInline):
     model = CssEquivalenceStanza.selectors.through
     extra = 0
-    fields = admin.TabularInline.fields+('css_text')
+    fields = ('stanza','css_text')
     readonly_fields = ( 'css_text', )
 
     def css_text(self,instance): 
