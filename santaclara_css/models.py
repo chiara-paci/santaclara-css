@@ -426,6 +426,7 @@ class CssEquivalenceSection(models.Model):
 class CssEquivalenceSelector(models.Model):
     section = models.ForeignKey(CssEquivalenceSection)
     selector = models.CharField(max_length=1024)
+    collapse = models.BooleanField(default=False)
 
     def __unicode__(self): return unicode(self.selector)
 
