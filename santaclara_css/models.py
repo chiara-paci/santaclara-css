@@ -428,7 +428,8 @@ class CssEquivalenceSelector(models.Model):
     selector = models.CharField(max_length=1024)
     collapse = models.BooleanField(default=False)
 
-    def __unicode__(self): return unicode(self.selector)
+    def __unicode__(self): 
+        return unicode(self.selector)
 
     class Meta:
         ordering = [ "selector" ]

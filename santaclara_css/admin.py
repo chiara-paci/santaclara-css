@@ -133,10 +133,15 @@ class CssEquivalenceLinearGradientAdmin(admin.ModelAdmin):
 admin.site.register(CssEquivalenceLinearGradient,CssEquivalenceLinearGradientAdmin)
 
 
+class CssEquivalenceStanzaSelectorThroughInline(admin.TabularInline):
+    model = CssEquivalenceStanza.selectors.through
+    extra = 0
+
 class CssEquivalenceSelectorAdmin(admin.ModelAdmin):
     save_on_top=True
     list_display = [ "__unicode__","section" ]
     list_editable = [ "section" ]
+    inlines = [ CssEquivalenceStanzaSelectorThroughInline ]
 
 admin.site.register(CssEquivalenceSelector,CssEquivalenceSelectorAdmin)
 
@@ -174,10 +179,6 @@ class CssEquivalenceStanzaLinearGradientThroughInline(admin.TabularInline):
 
 class CssEquivalenceStanzaColorThroughInline(admin.TabularInline):
     model = CssEquivalenceStanzaColorThrough
-    extra = 0
-
-class CssEquivalenceStanzaSelectorThroughInline(admin.TabularInline):
-    model = CssEquivalenceStanza.selectors.through
     extra = 0
 
 
