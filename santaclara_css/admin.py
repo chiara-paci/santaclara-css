@@ -127,12 +127,14 @@ class CssEquivalenceLinearGradientThroughInline(admin.TabularInline):
     extra = 0
 
 class CssEquivalenceLinearGradientAdmin(admin.ModelAdmin):
+    save_on_top=True
     inlines = [ CssEquivalenceLinearGradientThroughInline ]
 
 admin.site.register(CssEquivalenceLinearGradient,CssEquivalenceLinearGradientAdmin)
 
 
 class CssEquivalenceSelectorAdmin(admin.ModelAdmin):
+    save_on_top=True
     list_display = [ "__unicode__","section" ]
     list_editable = [ "section" ]
 
@@ -143,11 +145,13 @@ class CssEquivalenceSelectorInline(admin.TabularInline):
     extra = 0
 
 class CssEquivalenceSectionAdmin(admin.ModelAdmin):
+    save_on_top=True
     inlines = [ CssEquivalenceSelectorInline ]
 
 admin.site.register(CssEquivalenceSection,CssEquivalenceSectionAdmin)
 
 class CssEquivalenceStanzaThroughAdmin(admin.ModelAdmin):
+    save_on_top=True
     list_display=["__unicode__","stanza","important"]
     list_editable=["important"]
 
@@ -201,6 +205,7 @@ class SelectorInitialFilter(admin.SimpleListFilter):
         return queryset.filter(selectors__selector__istartswith=val+' ').distinct()
 
 class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
+    save_on_top=True
     exclude = [ "selectors" ]
     inlines = [ CssEquivalenceStanzaSelectorThroughInline,
                 CssEquivalenceStanzaBoxShadowThroughInline,
