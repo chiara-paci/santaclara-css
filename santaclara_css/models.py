@@ -441,27 +441,35 @@ class CssEquivalenceStanza(models.Model):
         T={}
         for eq_style in CssEquivalenceStyle.objects.all():
             T[unicode(eq_style)]=[]
-        box_shadow=self.box_shadow.all().first()
-        if box_shadow:
-            for style,shadow in box_shadow.shadow_dict():
-                T[style].append( ('box-shadow',shadow) )
+        for rel in self.cssequivalencestanzaboxshadowthrough_set.all():
+            box_shadow=rel.shadow
+            suffix=""
+            if rel.important: suffix=" !important" 
+            for style,shadow in rel.shadow.shadow_dict():
+                T[style].append( ('box-shadow',shadow+suffix) )
                 for i in ["webkit","moz"]:
-                    T[style].append( ('-'+i+'-box-shadow',shadow) )
+                    T[style].append( ('-'+i+'-box-shadow',shadow+suffix) )
         for rel in self.cssequivalencestanzacolorthrough_set.all():
             if rel.target=="fore": label="color"
             else: label="background-color"
+            suffix=""
+            if rel.important: suffix=" !important" 
             for style,color in rel.color.color_dict():
-                T[style].append( (label,color) );
+                T[style].append( (label,color+suffix) );
         for rel in self.cssequivalencestanzaborderthrough_set.all():
+            suffix=""
+            if rel.important: suffix=" !important" 
             label="border-"+unicode(rel.position)
             for style,border in rel.border.border_dict():
-                T[style].append( (label,border) );
+                T[style].append( (label,border+suffix) );
         for rel in self.cssequivalencestanzalineargradientthrough_set.all():
+            suffix=""
+            if rel.important: suffix=" !important" 
             label="background"
             for style,gradient in rel.gradient.gradient_dict():
-                T[style].append( (label,gradient) );
+                T[style].append( (label,gradient+suffix) );
                 for i in ["webkit","moz","ms","o"]:
-                    T[style].append( (label,'-'+i+'-'+gradient) )
+                    T[style].append( (label,'-'+i+'-'+gradient+suffix) )
 
         return T.items()
             
