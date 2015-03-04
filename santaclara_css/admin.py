@@ -133,15 +133,31 @@ class CssEquivalenceLinearGradientAdmin(admin.ModelAdmin):
 admin.site.register(CssEquivalenceLinearGradient,CssEquivalenceLinearGradientAdmin)
 
 
-class CssEquivalenceStanzaSelectorThroughInline(admin.TabularInline):
+class CssEquivalenceSelectorStanzaThroughInline(admin.TabularInline):
     model = CssEquivalenceStanza.selectors.through
     extra = 0
+    fields = admin.TabularInline.fields+('css_text')
+    readonly_fields = ( 'css_text', )
+
+    def css_text(self,instance): 
+        rows=[]
+        for style,row_list in instance.stanza.stanza_dict():
+            r=u"."+style
+            if not instance.selector.collapse: r+=u" "
+            r+=unicode(instance.selector)+" {"
+            rows.append(r)
+            for label,value in row_list:
+                rows.append(label+": "+value+";")
+            rows.append("}")
+            rows.append("")
+        return "<br/>".join(rows)
+    css_text.allow_tags=True
 
 class CssEquivalenceSelectorAdmin(admin.ModelAdmin):
     save_on_top=True
     list_display = [ "__unicode__","section" ]
     list_editable = [ "section" ]
-    inlines = [ CssEquivalenceStanzaSelectorThroughInline ]
+    inlines = [ CssEquivalenceSelectorStanzaThroughInline ]
 
 admin.site.register(CssEquivalenceSelector,CssEquivalenceSelectorAdmin)
 
@@ -164,6 +180,10 @@ admin.site.register(CssEquivalenceStanzaBoxShadowThrough,CssEquivalenceStanzaThr
 admin.site.register(CssEquivalenceStanzaBorderThrough,CssEquivalenceStanzaThroughAdmin)
 admin.site.register(CssEquivalenceStanzaColorThrough,CssEquivalenceStanzaThroughAdmin)
 admin.site.register(CssEquivalenceStanzaLinearGradientThrough,CssEquivalenceStanzaThroughAdmin)
+
+class CssEquivalenceStanzaSelectorThroughInline(admin.TabularInline):
+    model = CssEquivalenceStanza.selectors.through
+    extra = 0
 
 class CssEquivalenceStanzaBoxShadowThroughInline(admin.TabularInline):
     model = CssEquivalenceStanzaBoxShadowThrough
