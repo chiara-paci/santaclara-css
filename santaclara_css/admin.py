@@ -160,7 +160,7 @@ class SelectorInitialFilter(admin.SimpleListFilter):
     def lookups(self, request, model_admin):
         selectors=set()
         for sel in CssEquivalenceSelector.objects.all():
-            t=sel.split(" ")
+            t=unicode(sel).split(" ")
             if len(t)==1: 
                 selectors.add("-")
                 continue
