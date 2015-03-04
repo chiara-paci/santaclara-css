@@ -120,10 +120,24 @@ admin.site.register(CssEquivalenceShadowVariable,CssEquivalenceShadowVariableAdm
 #####
 
 admin.site.register(CssEquivalenceBorder)
-admin.site.register(CssEquivalenceSelector)
-admin.site.register(CssEquivalenceSection)
 admin.site.register(CssEquivalenceLinearGradient)
 admin.site.register(CssEquivalenceLinearGradientThrough)
+
+
+class CssEquivalenceSelectorAdmin(admin.ModelAdmin):
+    list_display = [ "__unicode__","section" ]
+    list_editable = [ "section" ]
+
+admin.site.register(CssEquivalenceSelector,CssEquivalenceSelectorAdmin)
+
+class CssEquivalenceSelectorInline(admin.TabularInline):
+    model = CssEquivalenceSelector
+    extra = 0
+
+class CssEquivalenceSectionAdmin(admin.ModelAdmin):
+    inlines = [ CssEquivalenceSelectorInline ]
+
+admin.site.register(CssEquivalenceSection,CssEquivalenceSectionAdmin)
 
 class CssEquivalenceStanzaThroughAdmin(admin.ModelAdmin):
     list_display=["__unicode__","stanza","important"]
