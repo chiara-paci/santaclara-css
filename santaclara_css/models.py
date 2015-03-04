@@ -1,3 +1,5 @@
+# -- coding: utf-8 --
+
 from django.db import models
 from django.core import validators
 from django.db.models.signals import m2m_changed
@@ -388,9 +390,8 @@ class CssEquivalenceLinearGradient(models.Model):
     colors = models.ManyToManyField(CssEquivalenceColorVariable,through='CssEquivalenceLinearGradientThrough')
 
     def __unicode__(self):
-        U=unicode(self.direction)
-        for color in self.colors.all():
-            U+=u" "+unicode(color.name)
+        U="["+unicode(self.direction)+"] "
+        U+=u" — ".join(map(unicode,self.colors.all()))
         return U
 
     def gradient_dict(self):
