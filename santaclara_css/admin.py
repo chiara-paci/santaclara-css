@@ -133,7 +133,7 @@ class CssEquivalenceLinearGradientAdmin(admin.ModelAdmin):
 admin.site.register(CssEquivalenceLinearGradient,CssEquivalenceLinearGradientAdmin)
 
 
-class CssEquivalenceSelectorStanzaThroughInline(admin.TabularInline):
+class CssEquivalenceSelectorStanzaThroughInline(admin.StackedInline):
     model = CssEquivalenceStanza.selectors.through
     extra = 0
     fields = ('cssequivalencestanza','css_text')
