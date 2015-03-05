@@ -137,7 +137,7 @@ class CssEquivalenceSelectorStanzaThroughInline(admin.StackedInline):
     model = CssEquivalenceStanza.selectors.through
     extra = 0
     fields = ('cssequivalencestanza','css_text')
-    readonly_fields = ( 'css_text', )
+    readonly_fields = ( 'cssequivalencestanza','css_text', )
 
     def css_text(self,instance): 
         rows=[]
