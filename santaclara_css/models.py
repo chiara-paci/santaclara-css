@@ -451,7 +451,7 @@ class CssEquivalenceStanza(models.Model):
         return U
 
     def save(self,*args,**kwargs):
-        self.p_text=self._text()
+        self.text=self._text()
         super(CssEquivalenceStanza,self).save(*args,**kwargs)
 
     def _text(self):

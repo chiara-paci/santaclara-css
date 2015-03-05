@@ -141,16 +141,8 @@ class CssEquivalenceSelectorStanzaThroughInline(admin.TabularInline):
 
     def css_text(self,instance): 
         rows=[]
-        for style,row_list in instance.cssequivalencestanza.stanza_dict():
-            r=u"."+style
-            if not instance.cssequivalenceselector.collapse: r+=u" "
-            r+=unicode(instance.cssequivalenceselector)+" {"
-            rows.append(r)
-            for label,value in row_list:
-                rows.append(label+": "+value+";")
-            rows.append("}")
-            rows.append("")
-        return "<br/>".join(rows)
+        text=unicode(instance.cssequivalencestanza.text)
+        return text.replace("\n","<br/>\n")
     css_text.allow_tags=True
 
 class CssEquivalenceSelectorAdmin(admin.ModelAdmin):
