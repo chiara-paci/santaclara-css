@@ -62,7 +62,7 @@ class CssShadowThroughInline(admin.TabularInline):
     extra = 0
 
 class CssShadowVariableAdmin(admin.ModelAdmin):
-    list_display=[ "name", "__unicode__" ]
+    list_display=[ "name", "__unicode__","shadow_text" ]
     inlines = [ CssShadowThroughInline ]
     save_as=True
 
