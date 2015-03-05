@@ -142,7 +142,7 @@ class CssEquivalenceSelectorStanzaThroughInline(admin.StackedInline):
     def css_text(self,instance): 
         rows=[]
         text=unicode(instance.cssequivalencestanza.text)
-        return text.replace("\n","<br/>\n")
+        return '<pre>'+text+'</pre>'
     css_text.allow_tags=True
 
 class CssEquivalenceSelectorAdmin(admin.ModelAdmin):
