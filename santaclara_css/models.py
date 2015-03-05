@@ -135,6 +135,13 @@ class CssShadowThrough(models.Model):
                               default=1.0)
     inset = models.BooleanField(default=False)
     
+    def save(self,*args,**kwargs):
+        super(CssShadowThrough, self).save(*args, **kwargs)
+        name=unicode(self.variable.name)
+        key="SHADOW_"+name
+        value=unicode(self.variable)
+        CssVariable.objects.mk_variable(key,value)
+
     def __unicode__(self):
         if self.color.id==0:
             return u"none"
@@ -164,6 +171,8 @@ class CssShadowThrough(models.Model):
         if self.inset:
             U+=u" inset"
         return U
+
+
 
 class CssEquivalence(models.Model):
     name = models.CharField(unique=True,max_length=1024)
