@@ -440,6 +440,7 @@ class CssEquivalenceStanza(models.Model):
     borders = models.ManyToManyField(CssEquivalenceBorder,blank=True,through='CssEquivalenceStanzaBorderThrough')
     colors = models.ManyToManyField(CssEquivalenceColorVariable,blank=True,through='CssEquivalenceStanzaColorThrough')
     linear_gradients = models.ManyToManyField(CssEquivalenceLinearGradient,blank=True,through='CssEquivalenceStanzaLinearGradientThrough')
+    text = models.TextField(editable=False)
     
     def __unicode__(self): 
         U=u""
@@ -449,7 +450,11 @@ class CssEquivalenceStanza(models.Model):
             sep=u", "
         return U
 
-    def text(self):
+    def save(self,*args,**kwargs):
+        self.p_text=self._text()
+        super(CssEquivalenceStanza,self).save(*args,**kwargs)
+
+    def _text(self):
         rows=[]
         for style,row_list in self.stanza_dict():
             sels=list(self.selectors.all())
