@@ -460,8 +460,9 @@ class CssEquivalenceStanza(models.Model):
         return U
 
     def save(self,*args,**kwargs):
-        self.text=""
-        super(CssEquivalenceStanza,self).save(*args,**kwargs)
+        if not self.pk:
+            self.text=""
+            super(CssEquivalenceStanza,self).save(*args,**kwargs)
         self.text=self._text()
         super(CssEquivalenceStanza,self).save(*args,**kwargs)
 
