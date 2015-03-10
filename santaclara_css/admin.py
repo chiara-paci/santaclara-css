@@ -80,7 +80,7 @@ admin.site.register(CssEquivalence,CssEquivalenceAdmin)
 
 class CssEquivalenceStyleAdmin(admin.ModelAdmin):
     inlines = [ CssEquivalenceColorInline ]
-    list_display = [ 'self', 'active']
+    list_display = [ '__unicode__', 'active']
     list_editable = ['active']
 
 admin.site.register(CssEquivalenceStyle,CssEquivalenceStyleAdmin)
