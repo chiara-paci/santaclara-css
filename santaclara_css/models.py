@@ -172,8 +172,6 @@ class CssShadowThrough(models.Model):
             U+=u" inset"
         return U
 
-
-
 class CssEquivalence(models.Model):
     name = models.CharField(unique=True,max_length=1024)
 
@@ -184,6 +182,7 @@ class CssEquivalence(models.Model):
 
 class CssEquivalenceStyle(models.Model):
     name = models.CharField(unique=True,max_length=1024)
+    active = models.BooleanField(default=True)
 
     def __unicode__(self): return self.name
 
