@@ -446,6 +446,7 @@ class CssEquivalenceSelector(models.Model):
 class CssEquivalenceStanza(models.Model):
     selectors = models.ManyToManyField(CssEquivalenceSelector)
     box_shadow = models.ManyToManyField(CssEquivalenceShadowVariable,blank=True,through='CssEquivalenceStanzaBoxShadowThrough')
+    text_shadow = models.ManyToManyField(CssEquivalenceShadowVariable,blank=True,through='CssEquivalenceStanzaTextShadowThrough')
     borders = models.ManyToManyField(CssEquivalenceBorder,blank=True,through='CssEquivalenceStanzaBorderThrough')
     colors = models.ManyToManyField(CssEquivalenceColorVariable,blank=True,through='CssEquivalenceStanzaColorThrough')
     linear_gradients = models.ManyToManyField(CssEquivalenceLinearGradient,blank=True,through='CssEquivalenceStanzaLinearGradientThrough')
@@ -499,6 +500,12 @@ class CssEquivalenceStanza(models.Model):
                 T[style].append( ('box-shadow',shadow+suffix) )
                 for i in ["webkit","moz"]:
                     T[style].append( ('-'+i+'-box-shadow',shadow+suffix) )
+        for rel in self.cssequivalencestanzatextshadowthrough_set.all():
+            text_shadow=rel.shadow
+            suffix=""
+            if rel.important: suffix=" !important" 
+            for style,shadow in rel.shadow.shadow_dict():
+                T[style].append( ('text-shadow',shadow+suffix) )
         for rel in self.cssequivalencestanzacolorthrough_set.all():
             if rel.target=="fore": label="color"
             else: label="background-color"
@@ -521,28 +528,20 @@ class CssEquivalenceStanza(models.Model):
                 for i in ["webkit","moz","ms","o"]:
                     T[style].append( (label,'-'+i+'-'+gradient+suffix) )
         return T.items()
-            
-        
-
-# def background_gradient(style,*args):
-#     colors=",".join(args);
-#     gradient='linear-gradient('+style+','+colors+')'
-#     S='background: '+gradient+';\n'
-#     # inverso rispetto agli altri, questo per style=top, cambiare se serve altro
-#     #S+='background: -webkit-gradient(linear, 0% 0%, 0% 100%, from('+stop+'), to('+start+'));'
-#     for i in ["webkit","moz","ms","o"]:
-#         S+='background: -'+i+'-'+gradient+';\n'
-#     return S
 
 class CssEquivalenceStanzaBoxShadowThrough(models.Model):
-    stanza = models.ForeignKey(CssEquivalenceStanza)
+    stanza = models.ForeignKey(CssEquivalenceStanza,unique=True)
     shadow = models.ForeignKey(CssEquivalenceShadowVariable)
     important = models.BooleanField(default=False)
 
     def __unicode__(self): return unicode(self.shadow)
 
-    class Meta:
-        unique_together = [ "stanza","shadow" ]
+class CssEquivalenceStanzaTextShadowThrough(models.Model):
+    stanza = models.ForeignKey(CssEquivalenceStanza,unique=True)
+    shadow = models.ForeignKey(CssEquivalenceShadowVariable)
+    important = models.BooleanField(default=False)
+
+    def __unicode__(self): return unicode(self.shadow)
 
 class CssEquivalenceStanzaBorderThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
@@ -556,7 +555,7 @@ class CssEquivalenceStanzaBorderThrough(models.Model):
     def __unicode__(self): return unicode(self.border)+" ("+unicode(self.position)+")"
 
     class Meta:
-        unique_together = [ "stanza","border","position" ]
+        unique_together = [ "stanza","position" ]
     
 class CssEquivalenceStanzaColorThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza)
@@ -566,7 +565,7 @@ class CssEquivalenceStanzaColorThrough(models.Model):
                                                          ( "fore", "fore" ) ) )
 
     class Meta:
-        unique_together = [ "stanza","color","target" ]
+        unique_together = [ "stanza","target" ]
 
     def __unicode__(self): return unicode(self.color)+" ("+unicode(self.target)+")"
 
@@ -577,6 +576,6 @@ class CssEquivalenceStanzaLinearGradientThrough(models.Model):
     target = models.CharField(max_length=128,choices = ( ( "back","back" ), ) )
 
     class Meta:
-        unique_together = [ "stanza","gradient","target" ]
+        unique_together = [ "stanza","target" ]
     
     def __unicode__(self): return unicode(self.gradient)

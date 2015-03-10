@@ -12,6 +12,7 @@ from santaclara_css.models import CssEquivalenceSelector
 from santaclara_css.models import CssEquivalenceSection
 from santaclara_css.models import CssEquivalenceStanza
 from santaclara_css.models import CssEquivalenceStanzaBoxShadowThrough
+from santaclara_css.models import CssEquivalenceStanzaTextShadowThrough
 from santaclara_css.models import CssEquivalenceStanzaBorderThrough
 from santaclara_css.models import CssEquivalenceStanzaColorThrough
 from santaclara_css.models import CssEquivalenceStanzaLinearGradientThrough
@@ -169,6 +170,7 @@ class CssEquivalenceStanzaThroughAdmin(admin.ModelAdmin):
     list_editable=["important"]
 
 admin.site.register(CssEquivalenceStanzaBoxShadowThrough,CssEquivalenceStanzaThroughAdmin)
+admin.site.register(CssEquivalenceStanzaTextShadowThrough,CssEquivalenceStanzaThroughAdmin)
 admin.site.register(CssEquivalenceStanzaBorderThrough,CssEquivalenceStanzaThroughAdmin)
 admin.site.register(CssEquivalenceStanzaColorThrough,CssEquivalenceStanzaThroughAdmin)
 admin.site.register(CssEquivalenceStanzaLinearGradientThrough,CssEquivalenceStanzaThroughAdmin)
@@ -179,6 +181,10 @@ class CssEquivalenceStanzaSelectorThroughInline(admin.TabularInline):
 
 class CssEquivalenceStanzaBoxShadowThroughInline(admin.TabularInline):
     model = CssEquivalenceStanzaBoxShadowThrough
+    extra = 0
+
+class CssEquivalenceStanzaTextShadowThroughInline(admin.TabularInline):
+    model = CssEquivalenceStanzaTextShadowThrough
     extra = 0
 
 class CssEquivalenceStanzaBorderThroughInline(admin.TabularInline):
@@ -224,6 +230,7 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
                 CssEquivalenceStanzaColorThroughInline,
                 CssEquivalenceStanzaBorderThroughInline,
                 CssEquivalenceStanzaLinearGradientThroughInline,
+                CssEquivalenceStanzaTextShadowThroughInline,
                 CssEquivalenceStanzaBoxShadowThroughInline ]
                 
     list_filter = [ "selectors__section",SelectorInitialFilter,"selectors" ]
