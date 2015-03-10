@@ -493,7 +493,7 @@ class CssEquivalenceStanza(models.Model):
 
     def stanza_dict(self):
         T={}
-        for eq_style in CssEquivalenceStyle.objects.all():
+        for eq_style in CssEquivalenceStyle.objects.filter(active=True):
             T[unicode(eq_style)]=[]
         for rel in self.cssequivalencestanzaboxshadowthrough_set.all():
             box_shadow=rel.shadow
