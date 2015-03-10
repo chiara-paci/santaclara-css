@@ -237,7 +237,7 @@ class CssEquivalenceColorVariable(models.Model):
 
     def color_dict(self):
         T={}
-        for eq_color in self.equivalence.cssequivalencecolor_set.all():
+        for eq_color in self.equivalence.cssequivalencecolor_set.filter(style__active=True):
             style=unicode(eq_color.style)
             T[style]=self.color_desc(eq_color.color)
         return T.items()
@@ -277,7 +277,7 @@ class CssEquivalenceShadowVariable(models.Model):
     def shadow_dict(self):
         T={}
         for eq_shadow in self.cssequivalenceshadowthrough_set.all():
-            for eq_color in eq_shadow.equivalence.cssequivalencecolor_set.all():
+            for eq_color in eq_shadow.equivalence.cssequivalencecolor_set.filter(style__active=True):
                 style=unicode(eq_color.style)
                 if not T.has_key(style):
                     T[style]=[]

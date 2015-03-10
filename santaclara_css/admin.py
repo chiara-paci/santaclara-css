@@ -80,6 +80,8 @@ admin.site.register(CssEquivalence,CssEquivalenceAdmin)
 
 class CssEquivalenceStyleAdmin(admin.ModelAdmin):
     inlines = [ CssEquivalenceColorInline ]
+    list_display = [ 'self', 'active']
+    list_editable = ['active']
 
 admin.site.register(CssEquivalenceStyle,CssEquivalenceStyleAdmin)
 admin.site.register(CssEquivalenceColor)
@@ -249,7 +251,7 @@ class CssEquivalenceStanzaAdmin(admin.ModelAdmin):
                     for label,value in L:
                         X.append(label+u": "+value+";")
                 return u"<br/>".join(X)
-        for style in CssEquivalenceStyle.objects.all():
+        for style in CssEquivalenceStyle.objects.filter(active=True):
             list_display.append(F(style))
         return list_display
 
