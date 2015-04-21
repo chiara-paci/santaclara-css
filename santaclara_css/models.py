@@ -534,6 +534,7 @@ class CssEquivalenceStanza(models.Model):
 
 class CssEquivalenceStanzaBoxShadowThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza,unique=True)
+    #stanza = models.OneToOneField(CssEquivalenceStanza)
     shadow = models.ForeignKey(CssEquivalenceShadowVariable)
     important = models.BooleanField(default=False)
 
@@ -541,6 +542,7 @@ class CssEquivalenceStanzaBoxShadowThrough(models.Model):
 
 class CssEquivalenceStanzaTextShadowThrough(models.Model):
     stanza = models.ForeignKey(CssEquivalenceStanza,unique=True)
+    #stanza = models.OneToOneField(CssEquivalenceStanza)
     shadow = models.ForeignKey(CssEquivalenceShadowVariable)
     important = models.BooleanField(default=False)
 
