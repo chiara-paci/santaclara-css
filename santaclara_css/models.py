@@ -495,7 +495,10 @@ class CssEquivalenceStanza(models.Model):
         T={}
         for eq_style in CssEquivalenceStyle.objects.filter(active=True):
             T[unicode(eq_style)]=[]
-        for rel in self.cssequivalencestanzaboxshadowthrough_set.all():
+        # QUI
+        #for rel in self.cssequivalencestanzaboxshadowthrough_set.all():
+        if hasattr(self,cssequivalencestanzaboxshadowthrough):
+            rel=self.cssequivalencestanzaboxshadowthrough
             box_shadow=rel.shadow
             suffix=""
             if rel.important: suffix=" !important" 
@@ -503,7 +506,10 @@ class CssEquivalenceStanza(models.Model):
                 T[style].append( ('box-shadow',shadow+suffix) )
                 for i in ["webkit","moz"]:
                     T[style].append( ('-'+i+'-box-shadow',shadow+suffix) )
-        for rel in self.cssequivalencestanzatextshadowthrough_set.all():
+        # QUI
+        #for rel in self.cssequivalencestanzatextshadowthrough_set.all():
+        if hasattr(self,cssequivalencestanzatextshadowthrough):
+            rel=self.cssequivalencestanzatextshadowthrough
             text_shadow=rel.shadow
             suffix=""
             if rel.important: suffix=" !important" 
@@ -533,16 +539,16 @@ class CssEquivalenceStanza(models.Model):
         return T.items()
 
 class CssEquivalenceStanzaBoxShadowThrough(models.Model):
-    stanza = models.ForeignKey(CssEquivalenceStanza,unique=True)
-    #stanza = models.OneToOneField(CssEquivalenceStanza)
+    #stanza = models.ForeignKey(CssEquivalenceStanza,unique=True)
+    stanza = models.OneToOneField(CssEquivalenceStanza)
     shadow = models.ForeignKey(CssEquivalenceShadowVariable)
     important = models.BooleanField(default=False)
 
     def __unicode__(self): return unicode(self.shadow)
 
 class CssEquivalenceStanzaTextShadowThrough(models.Model):
-    stanza = models.ForeignKey(CssEquivalenceStanza,unique=True)
-    #stanza = models.OneToOneField(CssEquivalenceStanza)
+    #stanza = models.ForeignKey(CssEquivalenceStanza,unique=True)
+    stanza = models.OneToOneField(CssEquivalenceStanza)
     shadow = models.ForeignKey(CssEquivalenceShadowVariable)
     important = models.BooleanField(default=False)
 
