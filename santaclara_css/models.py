@@ -497,7 +497,7 @@ class CssEquivalenceStanza(models.Model):
             T[unicode(eq_style)]=[]
         # QUI
         #for rel in self.cssequivalencestanzaboxshadowthrough_set.all():
-        if hasattr(self,cssequivalencestanzaboxshadowthrough):
+        if hasattr(self,"cssequivalencestanzaboxshadowthrough"):
             rel=self.cssequivalencestanzaboxshadowthrough
             box_shadow=rel.shadow
             suffix=""
@@ -508,7 +508,7 @@ class CssEquivalenceStanza(models.Model):
                     T[style].append( ('-'+i+'-box-shadow',shadow+suffix) )
         # QUI
         #for rel in self.cssequivalencestanzatextshadowthrough_set.all():
-        if hasattr(self,cssequivalencestanzatextshadowthrough):
+        if hasattr(self,"cssequivalencestanzatextshadowthrough"):
             rel=self.cssequivalencestanzatextshadowthrough
             text_shadow=rel.shadow
             suffix=""
