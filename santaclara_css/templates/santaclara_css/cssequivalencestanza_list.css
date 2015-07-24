@@ -1,0 +1,7 @@
+{% load cache %}
+{% cache 3600 cssequivalencestanza_list_css %}
+
+{% for stanza in cssequivalencestanza_list %}
+{{ stanza.text }}
+{% endfor %}
+{% endcache %}
